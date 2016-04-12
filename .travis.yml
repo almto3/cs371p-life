@@ -43,13 +43,4 @@ before_script:
 script:
     - date
     - ls -al
-    - make html
-    - ls -al
-    - make Life.log
-    - ls -al
     - make test
-    - ls -al
-    - make check
-
-after_failure:
-    - cat Life.tmp
