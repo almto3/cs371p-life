@@ -1,3 +1,11 @@
+# http://git-scm.com/docs/gitignore/
+
+*.gcda
+*.gcno
+*.gcov
+
+*.tmp
+
 # Compiled Object files
 *.slo
 *.lo
@@ -24,5 +32,9 @@
 
 # Executables
 *.exe
-*.out
 *.app
+
+RunLife
+TestLife
+life-tests/
+latex/
