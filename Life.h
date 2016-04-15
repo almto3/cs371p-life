@@ -8,7 +8,6 @@ class AbstractCell {
 	friend virtual ostream& operator<<(ostream& lhs, const AbstractCell& rhs);
 
 public:
-	AbstractCell(const char& input);
 	virtual AbstractCell evolve(vector<AbstractCell *> neighbors);
 protected:
 	bool alive;
