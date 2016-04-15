@@ -8,7 +8,7 @@ class AbstractCell {
 	friend virtual ostream& operator<<(ostream& lhs, const AbstractCell& rhs);
 
 public:
-	virtual AbstractCell evolve(vector<AbstractCell *> neighbors);
+	virtual Cell evolve(vector<Cell> neighbors);
 protected:
 	bool alive;
 };
@@ -18,7 +18,7 @@ class ConwayCell : protected AbstractCell {
 
 public:
 	ConwayCell(const char& input);
-	ConwayCell evolve(vector<AbstractCell *> neighbors);
+	Cell evolve(vector<Cell> neighbors);
 };
 
 class FredkinCell : protected AbstractCell {
@@ -26,7 +26,7 @@ class FredkinCell : protected AbstractCell {
 
 public:
 	FredkinCell(const char& input);
-	FredkinCell evolve(vector<AbstractCell *> neighbors);
+	Cell evolve(vector<Cell> neighbors);
 private:
 	int age;
 };
@@ -35,7 +35,7 @@ class Cell {
 public:
 	AbstractCell *cell;
 
-	Cell(AbstractCell* c);
+	Cell(AbstractCell& c);
 	Cell(Cell& c);
 	~Cell();
 	Cell& operator=(const Cell& rhs);
@@ -56,7 +56,7 @@ public:
 private:
 	int height;
 	int width;
-	vector<Cell> cells;
+	vector<Cell> board;
 
 	int generation;
 	int population;
