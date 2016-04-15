@@ -12,6 +12,10 @@ ConwayCell::ConwayCell(const char& input) {
 		alive = false;
 }
 
+ConwayCell* ConwayCell::clone() const {
+	return new ConwayCell(*this);
+}
+
 Cell ConwayCell::evolve(vector<Cell> neighbors) {
 	int live_neighbors = 0;
 
@@ -24,7 +28,8 @@ Cell ConwayCell::evolve(vector<Cell> neighbors) {
 			return Cell(new ConwayCell('.'));
 		else
 			return Cell(new ConwayCell('*'));
-	} else { // dead
+	} 
+	else { // dead
 		if (live_neighbors == 3)
 			return Cell(new ConwayCell('*'));
 		else
@@ -37,4 +42,17 @@ void ConwayCell::print(ostream& out) {
 		out << '*';
 	else
 		out << '.';
+}
+
+
+FredkinCell* FredkinCell::clone() const {
+	return new FredkinCell(*this);
+}
+
+Cell::Cell(const Cell& c) {
+	cell = c.cell->clone();
+}
+
+Cell::~Cell() {
+	delete this.cell;
 }
