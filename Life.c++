@@ -15,11 +15,9 @@ ConwayCell::ConwayCell(const char& input) {
 Cell ConwayCell::evolve(vector<Cell> neighbors) {
 	int live_neighbors = 0;
 
-	for (Cell n : neighbors) {
-		AbstractCell* nc = n.cell;
-		if (nc->alive)
+	for (Cell n : neighbors)
+		if (n.cell->*(&ConwayCell::alive))
 			live_neighbors++;
-	}
 
 	if (alive) {
 		if (live_neighbors < 2 || live_neighbors > 3)
