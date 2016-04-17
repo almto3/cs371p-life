@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <cassert>
 
 #include "Life.h"
 
@@ -12,6 +13,10 @@ using namespace std;
 */
 
 ConwayCell::ConwayCell(const char& input) {
+	assert(input == '*' || input == '.');
+
+	border = false;
+
 	if (input == '*')
 		alive = true;
 	else
@@ -56,7 +61,7 @@ void ConwayCell::print(ostream& out) {
 */
 
 
-FredkinCell::FredkinCell(const char& input) {
+FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 	if (input == '-') {
 		age = 0;
 		alive = false;
@@ -69,7 +74,7 @@ FredkinCell::FredkinCell(const char& input) {
 	}
 }
 
-FredkinCell::FredkinCell(int age_, bool alive_) {
+FredkinCell::FredkinCell(int age_, bool alive_) : AbstractCell(false) {
 	age = age_;
 	alive = alive_;
 }
@@ -131,9 +136,3 @@ Cell& Cell::operator=(const Cell& rhs) {
 	acell = rhs.acell->clone();
 	return *this;
 }
-
-
-// ----
-// Life
-// ----
-

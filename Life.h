@@ -30,6 +30,7 @@ public:
 
 class ConwayCell : public AbstractCell {
 public:
+	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
 	void print(std::ostream& out);
 	Cell evolve(std::vector<Cell> neighbors);
@@ -39,6 +40,7 @@ public:
 
 class FredkinCell : public AbstractCell {
 public:
+	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
 	FredkinCell(const char& input);
 	FredkinCell(int age_, bool alive_);
 	void print(std::ostream& out);
@@ -118,12 +120,34 @@ public:
 		for (int i = 0; i < width + 2; i++)
 			board.push_back(Cell(new T(true)));
 
+		for (Cell n : temp_board)
+			std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
+
 		// Put the rest of the board after the top border
 		board.insert(board.end(), temp_board.begin(), temp_board.end());
+
+		std::cerr << "\n\n\n\n\n\n";
+
+		for (Cell n : board)
+			std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
+
+		print(std::cerr, true);
 	}
 
 
-	void print(std::ostream& out);
+	void print(std::ostream& out, bool print_border = false) {
+		for (int x = 1 - print_border; x < height + 1 + print_border; x++) {
+			for (int y = 1 - print_border; y < width + 1 + print_border; y++) {
+				Cell c = board[x * (width + 2) + y];
+
+				if (c.acell->is_border)
+					out << "B";
+				else
+					c.acell->print(out);
+			}
+			out << "\n";
+		}
+	}
 
 	void evolve_all();
 	Cell& at(int x, int y);
