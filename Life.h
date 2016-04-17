@@ -47,8 +47,14 @@ public:
 	Cell evolve(std::vector<Cell> neighbors);
 
 	FredkinCell* clone() const;
+
 private:
 	int age;
+	FRIEND_TEST(FredkinFixture, fredkin_construct1);
+	FRIEND_TEST(FredkinFixture, fredkin_construct2);
+	FRIEND_TEST(FredkinFixture, fredkin_construct3);
+	FRIEND_TEST(FredkinFixture, fredkin_construct4);
+	FRIEND_TEST(FredkinFixture, fredkin_construct5);
 };
 
 class Cell {

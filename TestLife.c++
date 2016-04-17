@@ -83,3 +83,77 @@ INSTANTIATE_TEST_CASE_P(ConwayEvolutionDead, EvolutionFixture, ::testing::Values
 	vector<char>({'*', '*', '*', '*', '*', '*', '*', '.',   '.', '.'}),
 	vector<char>({'*', '*', '*', '*', '*', '*', '*', '*',   '.', '.'})
 	));
+
+
+
+
+
+TEST(FredkinFixture, fredkin_construct1) {
+	FredkinCell f = FredkinCell('-');
+	ASSERT_EQ(f.alive, false);
+	ASSERT_EQ(f.age, 0);
+}
+
+TEST(FredkinFixture, fredkin_construct2) {
+	FredkinCell f = FredkinCell('0');
+	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.age, 0);
+}
+
+TEST(FredkinFixture, fredkin_construct3) {
+	FredkinCell f = FredkinCell('5');
+	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.age, 5);
+}
+
+TEST(FredkinFixture, fredkin_construct4) {
+	FredkinCell f = FredkinCell('9');
+	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.age, 9);
+}
+
+TEST(FredkinFixture, fredkin_construct5) {
+	FredkinCell f = FredkinCell('+');
+	ASSERT_EQ(f.alive, true);
+	ASSERT_GE(f.age, 10);
+}
+
+TEST(FredkinFixture, fredkin_output1) {
+	FredkinCell c = FredkinCell('-');
+
+	ostringstream s;
+	c.print(s);
+	ASSERT_EQ(s.str(), "-");
+}
+
+TEST(FredkinFixture, fredkin_output2) {
+	FredkinCell c = FredkinCell('0');
+
+	ostringstream s;
+	c.print(s);
+	ASSERT_EQ(s.str(), "0");
+}
+
+TEST(FredkinFixture, fredkin_output3) {
+	FredkinCell c = FredkinCell('3');
+
+	ostringstream s;
+	c.print(s);
+	ASSERT_EQ(s.str(), "3");
+}
+
+TEST(FredkinFixture, fredkin_output4) {
+	FredkinCell c = FredkinCell('9');
+
+	ostringstream s;
+	c.print(s);
+	ASSERT_EQ(s.str(), "9");
+}
+
+TEST(FredkinFixture, fredkin_output5) {
+	FredkinCell c = FredkinCell('+');
+
+	ostringstream s;
+	c.print(s);
+	ASSERT_EQ(s.str(), "+");
+}
