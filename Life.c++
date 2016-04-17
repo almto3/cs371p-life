@@ -20,7 +20,7 @@ Cell ConwayCell::evolve(vector<Cell> neighbors) {
 	int live_neighbors = 0;
 
 	for (Cell n : neighbors)
-		if (n.cell->*(&ConwayCell::alive))
+		if (n.acell->*(&ConwayCell::alive))
 			live_neighbors++;
 
 	if (alive) {
@@ -45,14 +45,20 @@ void ConwayCell::print(ostream& out) {
 }
 
 
-FredkinCell* FredkinCell::clone() const {
+/*FredkinCell* FredkinCell::clone() const {
 	return new FredkinCell(*this);
-}
+}*/
+
 
 Cell::Cell(const Cell& c) {
-	cell = c.cell->clone();
+	acell = c.acell->clone();
 }
 
 Cell::~Cell() {
-	delete this.cell;
+	delete acell;
+}
+
+Cell& Cell::operator=(const Cell& rhs) {
+	acell = rhs.acell->clone();
+	return *this;
 }

@@ -4,13 +4,18 @@
 #include <vector>
 #include <iostream>
 
+#include "gtest/gtest.h"
+
 class Cell;
 
 class AbstractCell {
 public:
-	virtual Cell evolve(std::vector<Cell> neighbors);
-	virtual void print(std::ostream& out);
+	virtual Cell evolve(std::vector<Cell> neighbors) = 0;
+	virtual void print(std::ostream& out) = 0;
 	virtual AbstractCell* clone() const = 0;
+
+	AbstractCell() : alive(false) {}
+
 protected:
 	bool alive;
 };
@@ -22,9 +27,13 @@ public:
 	Cell evolve(std::vector<Cell> neighbors);
 
 	ConwayCell* clone() const;
+
+protected:
+	FRIEND_TEST(ConwayFixture, conway_construct1);
+	FRIEND_TEST(ConwayFixture, conway_construct2);
 };
 
-class FredkinCell : public AbstractCell {
+/*class FredkinCell : public AbstractCell {
 public:
 	FredkinCell(const char& input);
 	void print(std::ostream& out);
@@ -33,13 +42,13 @@ public:
 	FredkinCell* clone() const;
 private:
 	int age;
-};
+};*/
 
 class Cell {
 public:
-	AbstractCell *cell;
+	AbstractCell *acell;
 
-	Cell(AbstractCell* c) : cell(c) {}
+	Cell(AbstractCell* c) : acell(c) {}
 	Cell(const Cell& c);
 	~Cell();
 	Cell& operator=(const Cell& rhs);
