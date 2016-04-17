@@ -35,11 +35,11 @@ TEST(ConwayFixture, conway_output2) {
 }
 
 
-class EvolutionFixture : public ::testing::TestWithParam<vector<char>> {
+class ConwayEvolutionFixture : public ::testing::TestWithParam<vector<char>> {
 	// Fixture for running tests of evolution. The argument is a vector containing the neighbors, then the value of the cell, then the expected value
 };
 
-TEST_P(EvolutionFixture, conway_evolve) {
+TEST_P(ConwayEvolutionFixture, conway_evolve) {
 	vector<char> param = GetParam();
 
 	char expected = param.back();
@@ -60,7 +60,7 @@ TEST_P(EvolutionFixture, conway_evolve) {
 	ASSERT_EQ(s.str()[0], expected);
 }
 
-INSTANTIATE_TEST_CASE_P(ConwayEvolutionAlive, EvolutionFixture, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(ConwayEvolutionAlive, ConwayEvolutionFixture, ::testing::Values(
 	vector<char>({'.', '.', '.', '.', '.', '.', '.', '.',   '*', '.'}),
 	vector<char>({'*', '.', '.', '.', '.', '.', '.', '.',   '*', '.'}),
 	vector<char>({'*', '*', '.', '.', '.', '.', '.', '.',   '*', '*'}),
@@ -72,7 +72,7 @@ INSTANTIATE_TEST_CASE_P(ConwayEvolutionAlive, EvolutionFixture, ::testing::Value
 	vector<char>({'*', '*', '*', '*', '*', '*', '*', '*',   '*', '.'})
 	));
 
-INSTANTIATE_TEST_CASE_P(ConwayEvolutionDead, EvolutionFixture, ::testing::Values(
+INSTANTIATE_TEST_CASE_P(ConwayEvolutionDead, ConwayEvolutionFixture, ::testing::Values(
 	vector<char>({'.', '.', '.', '.', '.', '.', '.', '.',   '.', '.'}),
 	vector<char>({'*', '.', '.', '.', '.', '.', '.', '.',   '.', '.'}),
 	vector<char>({'*', '*', '.', '.', '.', '.', '.', '.',   '.', '.'}),
@@ -157,3 +157,57 @@ TEST(FredkinFixture, fredkin_output5) {
 	c.print(s);
 	ASSERT_EQ(s.str(), "+");
 }
+
+class FredkinEvolutionFixture : public ::testing::TestWithParam<vector<char>> {
+	// Fixture for running tests of evolution. The argument is a vector containing the neighbors, then the value of the cell, then the expected value
+};
+
+
+TEST_P(FredkinEvolutionFixture, fredkin_evolve) {
+	vector<char> param = GetParam();
+
+	char expected = param.back();
+	param.pop_back();
+	char cell_value = param.back();
+	param.pop_back();
+
+	vector<Cell> neighbors;
+	for (char c : param) {
+		neighbors.push_back(Cell(new FredkinCell(c)));
+	}
+
+	FredkinCell c = FredkinCell(cell_value);
+	Cell c2 = c.evolve(neighbors);
+
+	ostringstream s;
+	c2.acell->print(s);
+	ASSERT_EQ(s.str()[0], expected);
+}
+
+INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive, FredkinEvolutionFixture, ::testing::Values(
+	vector<char>({'-', '-', '-', '-', '-', '-', '-', '-',   '0', '-'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '0', '1'}),
+	vector<char>({'2', '2', '-', '-', '-', '-', '-', '-',   '0', '-'}),
+	vector<char>({'2', '2', '2', '-', '-', '-', '-', '-',   '0', '1'}),
+	vector<char>({'2', '2', '2', '2', '-', '-', '-', '-',   '0', '-'}),
+
+	vector<char>({'-', '-', '-', '-', '2', '-', '4', '-',   '0', '-'}),
+	vector<char>({'6', '-', '-', '-', '-', '5', '-', '-',   '0', '1'}),
+	vector<char>({'2', '5', '-', '-', '3', '-', '-', '1',   '0', '-'}),
+	vector<char>({'2', '8', '2', '-', '0', '-', '5', '-',   '0', '1'}),
+	vector<char>({'1', '2', '+', '2', '3', '4', '-', '-',   '0', '-'})
+	));
+
+INSTANTIATE_TEST_CASE_P(FredkinEvolutionDead, FredkinEvolutionFixture, ::testing::Values(
+	vector<char>({'-', '-', '-', '-', '-', '-', '-', '-',   '-', '-'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '-', '0'}),
+	vector<char>({'2', '2', '-', '-', '-', '-', '-', '-',   '-', '-'}),
+	vector<char>({'2', '2', '2', '-', '-', '-', '-', '-',   '-', '0'}),
+	vector<char>({'2', '2', '2', '2', '-', '-', '-', '-',   '-', '-'}),
+
+	vector<char>({'-', '-', '-', '-', '2', '-', '4', '-',   '-', '-'}),
+	vector<char>({'6', '-', '-', '-', '-', '5', '-', '-',   '-', '0'}),
+	vector<char>({'2', '5', '-', '-', '3', '-', '-', '1',   '-', '-'}),
+	vector<char>({'2', '8', '2', '-', '0', '-', '5', '-',   '-', '0'}),
+	vector<char>({'1', '2', '+', '2', '3', '4', '-', '-',   '-', '-'})
+	));
