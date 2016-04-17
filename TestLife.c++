@@ -232,10 +232,15 @@ INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive2, FredkinEvolutionFixture, ::testi
 // LifeTest
 // --------
 
-/*TEST(LifeFixture, life_construct1) {
+TEST(LifeFixture, life_construct1) {
+	istringstream in("...\n.*.\n...\n*..\n\n");
 
+	Life<ConwayCell> l(in);
+
+	ASSERT_EQ(l.width, 3);
+	ASSERT_EQ(l.height, 4);
 }
-
+/*
 TEST(LifeFixture, life_print1) {
 
 }
