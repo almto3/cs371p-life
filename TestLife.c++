@@ -35,139 +35,51 @@ TEST(ConwayFixture, conway_output2) {
 }
 
 
-//class EvolutionFixture : public ::testing::TestWithParam<char> {
-//
-//}
+class EvolutionFixture : public ::testing::TestWithParam<vector<char>> {
+	// Fixture for running tests of evolution. The argument is a vector containing the neighbors, then the value of the cell, then the expected value
+};
 
-TEST(ConwayFixture, conway_evolve0_alive) {
-	vector<Cell> neighbors { Cell(new ConwayCell('.')), Cell(new ConwayCell('.')), Cell(new ConwayCell('.')), Cell(new ConwayCell('.')), Cell(new ConwayCell('.')), Cell(new ConwayCell('.')), Cell(new ConwayCell('.')), Cell(new ConwayCell('.')) };
+TEST_P(EvolutionFixture, conway_evolve) {
+	vector<char> param = GetParam();
 
-	ConwayCell c = ConwayCell('*');
+	char expected = param.back();
+	param.pop_back();
+	char cell_value = param.back();
+	param.pop_back();
+
+	vector<Cell> neighbors;
+	for (char c : param) {
+		neighbors.push_back(Cell(new ConwayCell(c)));
+	}
+
+	ConwayCell c = ConwayCell(cell_value);
 	Cell c2 = c.evolve(neighbors);
 
 	ostringstream s;
 	c2.acell->print(s);
-	ASSERT_EQ(s.str(), ".");
+	ASSERT_EQ(s.str()[0], expected);
 }
 
-/*
-TEST(ConwayFixture, conway_evolve1_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve(neighbors);
-	ASSERT_EQ(c2.alive, false);
-}
+INSTANTIATE_TEST_CASE_P(ConwayEvolutionAlive, EvolutionFixture, ::testing::Values(
+	vector<char>({'.', '.', '.', '.', '.', '.', '.', '.',   '*', '.'}),
+	vector<char>({'*', '.', '.', '.', '.', '.', '.', '.',   '*', '.'}),
+	vector<char>({'*', '*', '.', '.', '.', '.', '.', '.',   '*', '*'}),
+	vector<char>({'*', '*', '*', '.', '.', '.', '.', '.',   '*', '*'}),
+	vector<char>({'*', '*', '*', '*', '.', '.', '.', '.',   '*', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '.', '.', '.',   '*', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '*', '.', '.',   '*', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '*', '*', '.',   '*', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '*', '*', '*',   '*', '.'})
+	));
 
-TEST(ConwayFixture, conway_evolve2_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve(neighbors);
-	ASSERT_EQ(c2.alive, true);
-}
-
-TEST(ConwayFixture, conway_evolve3_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve(neighbors);
-	ASSERT_EQ(c2.alive, true);
-}
-
-TEST(ConwayFixture, conway_evolve4_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve5_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve6_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve7_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve8_alive) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*') };
-	ConwayCell c = ConwayCell('*');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-
-TEST(ConwayFixture, conway_evolve0_dead) {
-	vector<Cell> neighbors { ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve1_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve2_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve3_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, true);
-}
-
-TEST(ConwayFixture, conway_evolve4_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve5_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve6_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve7_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('.') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-
-TEST(ConwayFixture, conway_evolve8_dead) {
-	vector<Cell> neighbors { ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*'), ConwayCell('*') };
-	ConwayCell c = ConwayCell('.');
-	ConwayCell c2 = c.evolve();
-	ASSERT_EQ(c2.alive, false);
-}
-*/
+INSTANTIATE_TEST_CASE_P(ConwayEvolutionDead, EvolutionFixture, ::testing::Values(
+	vector<char>({'.', '.', '.', '.', '.', '.', '.', '.',   '.', '.'}),
+	vector<char>({'*', '.', '.', '.', '.', '.', '.', '.',   '.', '.'}),
+	vector<char>({'*', '*', '.', '.', '.', '.', '.', '.',   '.', '.'}),
+	vector<char>({'*', '*', '*', '.', '.', '.', '.', '.',   '.', '*'}),
+	vector<char>({'*', '*', '*', '*', '.', '.', '.', '.',   '.', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '.', '.', '.',   '.', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '*', '.', '.',   '.', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '*', '*', '.',   '.', '.'}),
+	vector<char>({'*', '*', '*', '*', '*', '*', '*', '*',   '.', '.'})
+	));
