@@ -10,14 +10,20 @@ class Cell;
 
 class AbstractCell {
 public:
+	/*	Order for neighbors in the vector
+	  									8 1 5
+	  									4 X 2
+	  									7 3 6
+	*/
 	virtual Cell evolve(std::vector<Cell> neighbors) = 0;
 	virtual void print(std::ostream& out) = 0;
 	virtual AbstractCell* clone() const = 0;
 
-	AbstractCell() : alive(false) {}
+	AbstractCell(bool border = false) : is_border(border) {}
 
 protected:
 	bool alive;
+	bool is_border;
 };
 
 class ConwayCell : public AbstractCell {
@@ -28,21 +34,22 @@ public:
 
 	ConwayCell* clone() const;
 
-protected:
+private:
 	FRIEND_TEST(ConwayFixture, conway_construct1);
 	FRIEND_TEST(ConwayFixture, conway_construct2);
 };
 
-/*class FredkinCell : public AbstractCell {
+class FredkinCell : public AbstractCell {
 public:
 	FredkinCell(const char& input);
+	FredkinCell(int age_, bool alive_);
 	void print(std::ostream& out);
 	Cell evolve(std::vector<Cell> neighbors);
 
 	FredkinCell* clone() const;
 private:
 	int age;
-};*/
+};
 
 class Cell {
 public:
