@@ -9,12 +9,14 @@ using namespace std;
 
 TEST(ConwayFixture, conway_construct1) {
 	ConwayCell c = ConwayCell('*');
-	ASSERT_EQ(c.alive, true);
+	ASSERT_EQ(c.is_alive, true);
+	ASSERT_EQ(c.is_border, false);
 }
 
 TEST(ConwayFixture, conway_construct2) {
 	ConwayCell c = ConwayCell('.');
-	ASSERT_EQ(c.alive, false);
+	ASSERT_EQ(c.is_alive, false);
+	ASSERT_EQ(c.is_border, false);
 }
 
 
@@ -90,31 +92,36 @@ INSTANTIATE_TEST_CASE_P(ConwayEvolutionDead, ConwayEvolutionFixture, ::testing::
 
 TEST(FredkinFixture, fredkin_construct1) {
 	FredkinCell f = FredkinCell('-');
-	ASSERT_EQ(f.alive, false);
+	ASSERT_EQ(f.is_alive, false);
+	ASSERT_EQ(f.is_border, false);
 	ASSERT_EQ(f.age, 0);
 }
 
 TEST(FredkinFixture, fredkin_construct2) {
 	FredkinCell f = FredkinCell('0');
-	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.is_alive, true);
+	ASSERT_EQ(f.is_border, false);
 	ASSERT_EQ(f.age, 0);
 }
 
 TEST(FredkinFixture, fredkin_construct3) {
 	FredkinCell f = FredkinCell('5');
-	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.is_alive, true);
+	ASSERT_EQ(f.is_border, false);
 	ASSERT_EQ(f.age, 5);
 }
 
 TEST(FredkinFixture, fredkin_construct4) {
 	FredkinCell f = FredkinCell('9');
-	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.is_alive, true);
+	ASSERT_EQ(f.is_border, false);
 	ASSERT_EQ(f.age, 9);
 }
 
 TEST(FredkinFixture, fredkin_construct5) {
 	FredkinCell f = FredkinCell('+');
-	ASSERT_EQ(f.alive, true);
+	ASSERT_EQ(f.is_alive, true);
+	ASSERT_EQ(f.is_border, false);
 	ASSERT_GE(f.age, 10);
 }
 

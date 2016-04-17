@@ -26,7 +26,7 @@ Cell ConwayCell::evolve(vector<Cell> neighbors) {
 	int live_neighbors = 0;
 
 	for (Cell n : neighbors)
-		if (!(n.acell->*(&ConwayCell::is_border)) && n.acell->*(&ConwayCell::alive))
+		if (!(n.acell->*(&ConwayCell::border)) && n.acell->*(&ConwayCell::alive))
 			live_neighbors++;
 
 	if (alive) {
@@ -83,7 +83,7 @@ Cell FredkinCell::evolve(vector<Cell> neighbors) {
 
 	for (int i = 0; i< 4; i++){
 		Cell n = neighbors[i];
-		if (!(n.acell->*(&FredkinCell::is_border)) && n.acell->*(&FredkinCell::alive))
+		if (!(n.acell->*(&FredkinCell::border)) && n.acell->*(&FredkinCell::alive))
 			live_neighbors++;
 	}
 

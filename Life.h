@@ -9,6 +9,9 @@
 class Cell;
 
 class AbstractCell {
+protected:
+	bool alive;
+	bool border;
 public:
 	/*	Order for neighbors in the vector
 	  									8 1 5
@@ -19,11 +22,10 @@ public:
 	virtual void print(std::ostream& out) = 0;
 	virtual AbstractCell* clone() const = 0;
 
-	AbstractCell(bool border = false) : is_border(border) {}
+	AbstractCell(bool border_ = false) : border(border_) {}
 
-protected:
-	bool alive;
-	bool is_border;
+	const bool& is_alive = alive;
+	const bool& is_border = border;
 };
 
 class ConwayCell : public AbstractCell {
@@ -33,10 +35,6 @@ public:
 	Cell evolve(std::vector<Cell> neighbors);
 
 	ConwayCell* clone() const;
-
-private:
-	FRIEND_TEST(ConwayFixture, conway_construct1);
-	FRIEND_TEST(ConwayFixture, conway_construct2);
 };
 
 class FredkinCell : public AbstractCell {
@@ -48,7 +46,7 @@ public:
 
 	FredkinCell* clone() const;
 
-private:
+protected:
 	int age;
 	FRIEND_TEST(FredkinFixture, fredkin_construct1);
 	FRIEND_TEST(FredkinFixture, fredkin_construct2);
@@ -75,6 +73,8 @@ public:
 
 		width = 0;
 		height = 0;
+		generation = 0;
+		population = 0;
 
 		std::vector<Cell> temp_board; // Using this because we need to add the top border after we're done
 
