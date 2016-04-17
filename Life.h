@@ -67,10 +67,10 @@ public:
 	Cell& operator=(const Cell& rhs);
 };
 
-template <typename T>
+template <class T>
 class Life {
 public:
-	Life(std::istream& board);
+	Life(std::istream& in);
 
 	void print(std::ostream& out);
 

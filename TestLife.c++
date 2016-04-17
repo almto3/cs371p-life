@@ -211,3 +211,48 @@ INSTANTIATE_TEST_CASE_P(FredkinEvolutionDead, FredkinEvolutionFixture, ::testing
 	vector<char>({'2', '8', '2', '-', '0', '-', '5', '-',   '-', '0'}),
 	vector<char>({'1', '2', '+', '2', '3', '4', '-', '-',   '-', '-'})
 	));
+
+INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive2, FredkinEvolutionFixture, ::testing::Values(
+	vector<char>({'-', '-', '-', '-', '-', '-', '-', '-',   '5', '-'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '3', '4'}),
+	vector<char>({'2', '2', '-', '-', '-', '-', '-', '-',   '8', '-'}),
+	vector<char>({'2', '2', '2', '-', '-', '-', '-', '-',   '9', '+'}),
+	vector<char>({'2', '2', '2', '2', '-', '-', '-', '-',   '4', '-'}),
+
+	vector<char>({'-', '-', '-', '-', '2', '-', '4', '-',   '5', '-'}),
+	vector<char>({'6', '-', '-', '-', '-', '5', '-', '-',   '+', '+'}),
+	vector<char>({'2', '5', '-', '-', '3', '-', '-', '1',   '2', '-'}),
+	vector<char>({'2', '8', '2', '-', '0', '-', '5', '-',   '5', '6'}),
+	vector<char>({'1', '2', '+', '2', '3', '4', '-', '-',   '0', '-'})
+	));
+
+// TODO: test when FredkinCells and ConwayCells border each other
+
+// --------
+// LifeTest
+// --------
+
+/*TEST(LifeFixture, life_construct1) {
+
+}
+
+TEST(LifeFixture, life_print1) {
+
+}
+
+TEST(LifeFixture, life_evolve1) {
+
+}
+
+TEST(LifeFixture, life_begin1) {
+
+}
+
+TEST(LifeFixture, life_end1) {
+
+}
+
+TEST(LifeFixture, life_at1) {
+
+}
+*/
