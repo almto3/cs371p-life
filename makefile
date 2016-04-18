@@ -12,7 +12,7 @@ FILES :=                        \
     TestLife.out
 
 CXX        := g++-4.8
-CXXFLAGS   := -pedantic -std=c++11 -Wall
+CXXFLAGS   := -pedantic -std=c++11 -Wall -ggdb
 LDFLAGS    := -lgtest -lgtest_main -pthread
 GCOV       := gcov-4.8
 GCOVFLAGS  := -fprofile-arcs -ftest-coverage

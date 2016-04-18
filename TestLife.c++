@@ -42,20 +42,20 @@ TEST(ConwayFixture, conway_output2) {
 }
 
 
-TEST(ConwayFixture, conway_copy1) {
-	ConwayCell c = ConwayCell('*');
-	ASSERT_EQ(c.is_alive, true);
+TEST(ConwayFixture, conway_clone1) {
+	ConwayCell* c = new ConwayCell('*');
+	ASSERT_EQ(c->is_alive, true);
 
-	ConwayCell c2 = c;
-	ASSERT_EQ(c2.is_alive, true);
+	ConwayCell* c2 = c->clone();
+	ASSERT_EQ(c2->is_alive, true);
 }
 
-TEST(ConwayFixture, conway_copy2) {
-	ConwayCell c = ConwayCell('.');
-	ASSERT_EQ(c.is_alive, false);
+TEST(ConwayFixture, conway_clone2) {
+	ConwayCell* c = new ConwayCell('.');
+	ASSERT_EQ(c->is_alive, false);
 
-	ConwayCell c2 = c;
-	ASSERT_EQ(c2.is_alive, false);
+	ConwayCell* c2 = c->clone();
+	ASSERT_EQ(c2->is_alive, false);
 }
 
 

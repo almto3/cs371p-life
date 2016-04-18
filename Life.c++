@@ -86,7 +86,7 @@ FredkinCell* FredkinCell::clone() const {
 Cell FredkinCell::evolve(vector<Cell> neighbors) {
 	int live_neighbors = 0;
 
-	for (int i = 0; i< 4; i++){
+	for (int i = 0; i < 4; i++){
 		Cell n = neighbors[i];
 		if (!(n.acell->*(&FredkinCell::border)) && n.acell->*(&FredkinCell::alive))
 			live_neighbors++;
@@ -118,19 +118,17 @@ void FredkinCell::print(ostream& out) {
 	}
 }
 
-/*
-*
-	Cell
-*
-*/
+// ----
+// Cell
+// ----
 
 Cell::Cell(const Cell& c) {
 	acell = c.acell->clone();
 }
 
-Cell::~Cell() {
+/*Cell::~Cell() {
 	delete acell;
-}
+}*/
 
 Cell& Cell::operator=(const Cell& rhs) {
 	acell = rhs.acell->clone();

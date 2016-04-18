@@ -63,7 +63,7 @@ public:
 
 	Cell(AbstractCell* c) : acell(c) {}
 	Cell(const Cell& c);
-	~Cell();
+	//~Cell();
 	Cell& operator=(const Cell& rhs);
 };
 
@@ -83,7 +83,7 @@ public:
 		while (true) {
 			int input = in.get();
 
-			std::cerr << "input '" << (char)input << "' width " << width << " height " << height << " last_char_was_newline " << last_char_was_newline << std::endl;
+			//std::cerr << "input '" << (char)input << "' width " << width << " height " << height << " last_char_was_newline " << last_char_was_newline << std::endl;
 
 			if (input == '\n' || input == EOF) {
 				if (last_char_was_newline)
@@ -120,18 +120,18 @@ public:
 		for (int i = 0; i < width + 2; i++)
 			board.push_back(Cell(new T(true)));
 
-		for (Cell n : temp_board)
-			std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
+		//for (Cell n : temp_board)
+		//	std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
 
 		// Put the rest of the board after the top border
 		board.insert(board.end(), temp_board.begin(), temp_board.end());
 
-		std::cerr << "\n\n\n\n\n\n";
+		//std::cerr << "\n\n\n\n\n\n";
 
-		for (Cell n : board)
-			std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
+		//for (Cell n : board)
+		//	std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
 
-		print(std::cerr, true);
+		//print(std::cerr, true);
 	}
 
 
