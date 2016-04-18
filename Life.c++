@@ -6,11 +6,9 @@
 
 using namespace std;
 
-/*
-*
-	ConwayCell
-*
-*/
+// ----------
+// ConwayCell
+// ----------
 
 ConwayCell::ConwayCell(const char& input) {
 	assert(input == '*' || input == '.');
@@ -47,11 +45,11 @@ Cell ConwayCell::evolve(vector<Cell> neighbors) {
 	}
 }
 
-void ConwayCell::print(ostream& out) {
+ostream& ConwayCell::print(ostream& out) const {
 	if (alive)
-		out << '*';
+		return out << '*';
 	else
-		out << '.';
+		return out << '.';
 }
 
 /*
@@ -107,14 +105,14 @@ Cell FredkinCell::evolve(vector<Cell> neighbors) {
 
 }
 
-void FredkinCell::print(ostream& out) {
+ostream& FredkinCell::print(ostream& out) const {
 	if (!alive)
-		out << '-';
+		return out << '-';
 	else {
 		if (age < 10) 
-			out << age;
+			return out << age;
 		else 
-			out << '+';
+			return out << '+';
 	}
 }
 
@@ -126,6 +124,11 @@ Cell::Cell(const Cell& c) {
 	acell = c.acell->clone();
 }
 
+Cell::Cell(const char& c) {
+	// TODO: check if it's a Conway or Fredkin
+	acell = new ConwayCell(c);
+}
+
 /*Cell::~Cell() {
 	delete acell;
 }*/
@@ -134,3 +137,29 @@ Cell& Cell::operator=(const Cell& rhs) {
 	acell = rhs.acell->clone();
 	return *this;
 }
+
+/*Cell operator+(Cell& old_cell, vector<Cell> neighbors) {
+	return old_cell.acell->evolve(neighbors);
+}*/
+
+ostream& operator<<(ostream& out, const Cell c) {
+	return c.acell->print(out);
+}
+
+istream& operator>>(istream& in, Cell& c) {
+	char input = in.get();
+
+	c = Cell(input);
+
+	return in;
+}
+
+
+// ----
+// Life
+// ----
+/*
+template<> Cell& Life<Cell>::at(int x, int y) {
+	return board[(x + 1) * (width + 2) + y + 1];
+}
+*/

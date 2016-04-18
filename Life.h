@@ -9,6 +9,16 @@
 class Cell;
 
 class AbstractCell {
+	/*friend AbstractCell operator+(AbstractCell& old_cell, std::vector<AbstractCell> neigbors) {
+		return old_cell;
+	}*/
+	friend std::ostream& operator<<(std::ostream& out, const AbstractCell& c) {
+		return c.print(out);
+	}
+	friend std::istream& operator>>(std::istream& in, AbstractCell& c) {
+		return in;
+	}
+
 protected:
 	bool alive;
 	bool border;
@@ -19,20 +29,20 @@ public:
 	  									7 3 6
 	*/
 	virtual Cell evolve(std::vector<Cell> neighbors) = 0;
-	virtual void print(std::ostream& out) = 0;
+	virtual std::ostream& print(std::ostream& out) const = 0;
 	virtual AbstractCell* clone() const = 0;
 
 	AbstractCell(bool border_ = false) : border(border_) {}
 
-	const bool& is_alive = alive;
-	const bool& is_border = border;
+	const bool is_alive() { return alive; }
+	const bool is_border() { return border; }
 };
 
 class ConwayCell : public AbstractCell {
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
-	void print(std::ostream& out);
+	std::ostream& print(std::ostream& out) const;
 	Cell evolve(std::vector<Cell> neighbors);
 
 	ConwayCell* clone() const;
@@ -43,7 +53,7 @@ public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
 	FredkinCell(const char& input);
 	FredkinCell(int age_, bool alive_);
-	void print(std::ostream& out);
+	std::ostream& print(std::ostream& out) const;
 	Cell evolve(std::vector<Cell> neighbors);
 
 	FredkinCell* clone() const;
@@ -58,10 +68,16 @@ protected:
 };
 
 class Cell {
+	//friend Cell operator+(Cell& old_cell, std::vector<Cell> neigbors);
+	friend std::ostream& operator<<(std::ostream& out, const Cell c);
+	friend std::istream& operator>>(std::istream& in, Cell& c);
+
 public:
 	AbstractCell *acell;
 
-	Cell(AbstractCell* c) : acell(c) {}
+	Cell(AbstractCell* c = nullptr) : acell(c) {}
+	Cell(bool border_) : acell(new ConwayCell(border_)) {}
+	Cell(const char& c);
 	Cell(const Cell& c);
 	//~Cell();
 	Cell& operator=(const Cell& rhs);
@@ -78,7 +94,7 @@ public:
 		generation = 0;
 		population = 0;
 
-		std::vector<Cell> temp_board; // Using this because we need to add the top border after we're done
+		std::vector<T> temp_board; // Using this because we need to add the top border after we're done
 
 		while (true) {
 			int input = in.get();
@@ -93,7 +109,7 @@ public:
 					last_char_was_newline = true;
 
 					// Add border on right side
-					temp_board.push_back(Cell(new T(true)));
+					temp_board.push_back(T(true));
 
 					continue;
 				}
@@ -103,22 +119,23 @@ public:
 				++width;
 
 			if (last_char_was_newline == true) { // Add border on left side
-				temp_board.push_back(Cell(new T(true)));
+				temp_board.push_back(T(true));
 			}
 
-			T* new_cell = new T((char) input);
-			temp_board.push_back(Cell(new_cell));
+			// Add the actual cell
+			T new_cell = T((char) input);
+			temp_board.push_back(new_cell);
 
 			last_char_was_newline = false;
 		}
 
 		// Add border for last row
 		for (int i = 0; i < width + 2; i++)
-			temp_board.push_back(Cell(new T(true)));
+			temp_board.push_back(T(true));
 
 		// Add border for first row
 		for (int i = 0; i < width + 2; i++)
-			board.push_back(Cell(new T(true)));
+			board.push_back(T(true));
 
 		//for (Cell n : temp_board)
 		//	std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
@@ -131,38 +148,39 @@ public:
 		//for (Cell n : board)
 		//	std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
 
-		//print(std::cerr, true);
+		//print(std::cerr);
 	}
 
+	void print(std::ostream& out) {
+		for (int x = 1; x < height + 1; x++) {
+			for (int y = 1; y < width + 1; y++) {
+				T c = board[x * (width + 2) + y];
 
-	void print(std::ostream& out, bool print_border = false) {
-		for (int x = 1 - print_border; x < height + 1 + print_border; x++) {
-			for (int y = 1 - print_border; y < width + 1 + print_border; y++) {
-				Cell c = board[x * (width + 2) + y];
-
-				if (c.acell->is_border)
-					out << "B";
-				else
-					c.acell->print(out);
+				out << c;
 			}
 			out << "\n";
 		}
 	}
 
 	void evolve_all();
-	Cell& at(int x, int y);
 
-	Cell* begin();
-	Cell* end();
+	// We have a version specific to Cell in Life.c++
+	T& at(int x, int y) {
+		return board[(x + 1) * (width + 2) + y + 1];
+	}
+
+	T* begin();
+	T* end();
 private:
 	int height;
 	int width;
-	std::vector<Cell> board;
+	std::vector<T> board;
 
 	int generation;
 	int population;
 
 	FRIEND_TEST(LifeFixture, life_construct1);
+	FRIEND_TEST(LifeFixture, life_construct2);
 };
 
 #endif

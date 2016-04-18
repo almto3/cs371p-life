@@ -9,19 +9,19 @@ using namespace std;
 
 TEST(ConwayFixture, conway_construct1) {
 	ConwayCell c = ConwayCell('*');
-	ASSERT_EQ(c.is_alive, true);
-	ASSERT_EQ(c.is_border, false);
+	ASSERT_EQ(c.is_alive(), true);
+	ASSERT_EQ(c.is_border(), false);
 }
 
 TEST(ConwayFixture, conway_construct2) {
 	ConwayCell c = ConwayCell('.');
-	ASSERT_EQ(c.is_alive, false);
-	ASSERT_EQ(c.is_border, false);
+	ASSERT_EQ(c.is_alive(), false);
+	ASSERT_EQ(c.is_border(), false);
 }
 
 TEST(ConwayFixture, conway_construct_border) {
 	ConwayCell b = ConwayCell(true);
-	ASSERT_EQ(b.is_border, true);
+	ASSERT_EQ(b.is_border(), true);
 }
 
 
@@ -44,18 +44,18 @@ TEST(ConwayFixture, conway_output2) {
 
 TEST(ConwayFixture, conway_clone1) {
 	ConwayCell* c = new ConwayCell('*');
-	ASSERT_EQ(c->is_alive, true);
+	ASSERT_EQ(c->is_alive(), true);
 
 	ConwayCell* c2 = c->clone();
-	ASSERT_EQ(c2->is_alive, true);
+	ASSERT_EQ(c2->is_alive(), true);
 }
 
 TEST(ConwayFixture, conway_clone2) {
 	ConwayCell* c = new ConwayCell('.');
-	ASSERT_EQ(c->is_alive, false);
+	ASSERT_EQ(c->is_alive(), false);
 
 	ConwayCell* c2 = c->clone();
-	ASSERT_EQ(c2->is_alive, false);
+	ASSERT_EQ(c2->is_alive(), false);
 }
 
 
@@ -114,36 +114,36 @@ INSTANTIATE_TEST_CASE_P(ConwayEvolutionDead, ConwayEvolutionFixture, ::testing::
 
 TEST(FredkinFixture, fredkin_construct1) {
 	FredkinCell f = FredkinCell('-');
-	ASSERT_EQ(f.is_alive, false);
-	ASSERT_EQ(f.is_border, false);
+	ASSERT_EQ(f.is_alive(), false);
+	ASSERT_EQ(f.is_border(), false);
 	ASSERT_EQ(f.age, 0);
 }
 
 TEST(FredkinFixture, fredkin_construct2) {
 	FredkinCell f = FredkinCell('0');
-	ASSERT_EQ(f.is_alive, true);
-	ASSERT_EQ(f.is_border, false);
+	ASSERT_EQ(f.is_alive(), true);
+	ASSERT_EQ(f.is_border(), false);
 	ASSERT_EQ(f.age, 0);
 }
 
 TEST(FredkinFixture, fredkin_construct3) {
 	FredkinCell f = FredkinCell('5');
-	ASSERT_EQ(f.is_alive, true);
-	ASSERT_EQ(f.is_border, false);
+	ASSERT_EQ(f.is_alive(), true);
+	ASSERT_EQ(f.is_border(), false);
 	ASSERT_EQ(f.age, 5);
 }
 
 TEST(FredkinFixture, fredkin_construct4) {
 	FredkinCell f = FredkinCell('9');
-	ASSERT_EQ(f.is_alive, true);
-	ASSERT_EQ(f.is_border, false);
+	ASSERT_EQ(f.is_alive(), true);
+	ASSERT_EQ(f.is_border(), false);
 	ASSERT_EQ(f.age, 9);
 }
 
 TEST(FredkinFixture, fredkin_construct5) {
 	FredkinCell f = FredkinCell('+');
-	ASSERT_EQ(f.is_alive, true);
-	ASSERT_EQ(f.is_border, false);
+	ASSERT_EQ(f.is_alive(), true);
+	ASSERT_EQ(f.is_border(), false);
 	ASSERT_GE(f.age, 10);
 }
 
@@ -263,58 +263,58 @@ INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive2, FredkinEvolutionFixture, ::testi
 
 TEST(CellFixture, cell_conway_copy_constructor1) {
 	ConwayCell* cc = new ConwayCell('*');
-	ASSERT_EQ(cc->is_alive, true);
+	ASSERT_EQ(cc->is_alive(), true);
 
 	Cell c = Cell(cc);
-	ASSERT_EQ(c.acell->is_alive, true);
+	ASSERT_EQ(c.acell->is_alive(), true);
 
 	Cell c2 = c;
 	delete cc;
-	ASSERT_EQ(c2.acell->is_alive, true);
+	ASSERT_EQ(c2.acell->is_alive(), true);
 }
 
 TEST(CellFixture, cell_conway_copy_constructor2) {
 	ConwayCell* cc = new ConwayCell('.');
-	ASSERT_EQ(cc->is_alive, false);
+	ASSERT_EQ(cc->is_alive(), false);
 
 	Cell c = Cell(cc);
-	ASSERT_EQ(c.acell->is_alive, false);
+	ASSERT_EQ(c.acell->is_alive(), false);
 
 	Cell c2 = c;
 	delete cc;
-	ASSERT_EQ(c2.acell->is_alive, false);
+	ASSERT_EQ(c2.acell->is_alive(), false);
 }
 
 TEST(CellFixture, cell_conway_copy_assignment1) {
 	ConwayCell* cc = new ConwayCell('*');
-	ASSERT_EQ(cc->is_alive, true);
+	ASSERT_EQ(cc->is_alive(), true);
 
 	ConwayCell* cc2 = new ConwayCell('.');
-	ASSERT_EQ(cc2->is_alive, false);
+	ASSERT_EQ(cc2->is_alive(), false);
 
 	Cell c = Cell(cc);
-	ASSERT_EQ(c.acell->is_alive, true);
+	ASSERT_EQ(c.acell->is_alive(), true);
 
 	Cell c2 = Cell(cc2);
 	c2 = c;
 	delete cc;
-	ASSERT_EQ(c2.acell->is_alive, true);
+	ASSERT_EQ(c2.acell->is_alive(), true);
 }
 
 TEST(CellFixture, cell_conway_copy_assignment2) {
 	ConwayCell* cc = new ConwayCell('.');
-	ASSERT_EQ(cc->is_alive, false);
+	ASSERT_EQ(cc->is_alive(), false);
 
 	ConwayCell* cc2 = new ConwayCell('*');
-	ASSERT_EQ(cc2->is_alive, true);
+	ASSERT_EQ(cc2->is_alive(), true);
 
 	Cell c = Cell(cc);
-	ASSERT_EQ(c.acell->is_alive, false);
+	ASSERT_EQ(c.acell->is_alive(), false);
 
 	Cell c2 = Cell(cc2);
 	c2 = c;
 	delete cc;
-	ASSERT_EQ(c2.acell->is_alive, false);
+	ASSERT_EQ(c2.acell->is_alive(), false);
 }
 
 // --------
@@ -330,42 +330,123 @@ TEST(LifeFixture, life_construct1) {
 	EXPECT_EQ(l.height, 4);
 	EXPECT_EQ(l.board.size(), (l.width + 2) * (l.height + 2));
 
-	EXPECT_EQ(l.board[0].acell->is_border, true);
-	EXPECT_EQ(l.board[1].acell->is_border, true);
-	EXPECT_EQ(l.board[2].acell->is_border, true);
-	EXPECT_EQ(l.board[3].acell->is_border, true);
-	EXPECT_EQ(l.board[4].acell->is_border, true);
+	EXPECT_EQ(l.board[0].is_border(), true);
+	EXPECT_EQ(l.board[1].is_border(), true);
+	EXPECT_EQ(l.board[2].is_border(), true);
+	EXPECT_EQ(l.board[3].is_border(), true);
+	EXPECT_EQ(l.board[4].is_border(), true);
 
-	EXPECT_EQ(l.board[5].acell->is_border, true);
-	EXPECT_EQ(l.board[6].acell->is_border, false); EXPECT_EQ(l.board[6].acell->is_alive, false);
-	EXPECT_EQ(l.board[7].acell->is_border, false); EXPECT_EQ(l.board[6].acell->is_alive, false);
-	EXPECT_EQ(l.board[8].acell->is_border, false); EXPECT_EQ(l.board[6].acell->is_alive, false);
-	EXPECT_EQ(l.board[9].acell->is_border, true);
+	EXPECT_EQ(l.board[5].is_border(), true);
+	EXPECT_EQ(l.board[6].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
+	EXPECT_EQ(l.board[7].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
+	EXPECT_EQ(l.board[8].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
+	EXPECT_EQ(l.board[9].is_border(), true);
 
-	EXPECT_EQ(l.board[10].acell->is_border, true);
-	EXPECT_EQ(l.board[11].acell->is_border, false); EXPECT_EQ(l.board[11].acell->is_alive, false);
-	EXPECT_EQ(l.board[12].acell->is_border, false); EXPECT_EQ(l.board[12].acell->is_alive, true);
-	EXPECT_EQ(l.board[13].acell->is_border, false); EXPECT_EQ(l.board[13].acell->is_alive, false);
-	EXPECT_EQ(l.board[14].acell->is_border, true);
+	EXPECT_EQ(l.board[10].is_border(), true);
+	EXPECT_EQ(l.board[11].is_border(), false); EXPECT_EQ(l.board[11].is_alive(), false);
+	EXPECT_EQ(l.board[12].is_border(), false); EXPECT_EQ(l.board[12].is_alive(), true);
+	EXPECT_EQ(l.board[13].is_border(), false); EXPECT_EQ(l.board[13].is_alive(), false);
+	EXPECT_EQ(l.board[14].is_border(), true);
 
-	EXPECT_EQ(l.board[15].acell->is_border, true);
-	EXPECT_EQ(l.board[16].acell->is_border, false); EXPECT_EQ(l.board[16].acell->is_alive, false);
-	EXPECT_EQ(l.board[17].acell->is_border, false); EXPECT_EQ(l.board[17].acell->is_alive, false);
-	EXPECT_EQ(l.board[18].acell->is_border, false); EXPECT_EQ(l.board[18].acell->is_alive, false);
-	EXPECT_EQ(l.board[19].acell->is_border, true);
+	EXPECT_EQ(l.board[15].is_border(), true);
+	EXPECT_EQ(l.board[16].is_border(), false); EXPECT_EQ(l.board[16].is_alive(), false);
+	EXPECT_EQ(l.board[17].is_border(), false); EXPECT_EQ(l.board[17].is_alive(), false);
+	EXPECT_EQ(l.board[18].is_border(), false); EXPECT_EQ(l.board[18].is_alive(), false);
+	EXPECT_EQ(l.board[19].is_border(), true);
 
-	EXPECT_EQ(l.board[20].acell->is_border, true);
-	EXPECT_EQ(l.board[21].acell->is_border, false); EXPECT_EQ(l.board[21].acell->is_alive, true);
-	EXPECT_EQ(l.board[22].acell->is_border, false); EXPECT_EQ(l.board[22].acell->is_alive, false);
-	EXPECT_EQ(l.board[23].acell->is_border, false); EXPECT_EQ(l.board[23].acell->is_alive, false);
-	EXPECT_EQ(l.board[24].acell->is_border, true);
+	EXPECT_EQ(l.board[20].is_border(), true);
+	EXPECT_EQ(l.board[21].is_border(), false); EXPECT_EQ(l.board[21].is_alive(), true);
+	EXPECT_EQ(l.board[22].is_border(), false); EXPECT_EQ(l.board[22].is_alive(), false);
+	EXPECT_EQ(l.board[23].is_border(), false); EXPECT_EQ(l.board[23].is_alive(), false);
+	EXPECT_EQ(l.board[24].is_border(), true);
 
-	EXPECT_EQ(l.board[25].acell->is_border, true);
-	EXPECT_EQ(l.board[26].acell->is_border, true);
-	EXPECT_EQ(l.board[27].acell->is_border, true);
-	EXPECT_EQ(l.board[28].acell->is_border, true);
-	EXPECT_EQ(l.board[29].acell->is_border, true);
+	EXPECT_EQ(l.board[25].is_border(), true);
+	EXPECT_EQ(l.board[26].is_border(), true);
+	EXPECT_EQ(l.board[27].is_border(), true);
+	EXPECT_EQ(l.board[28].is_border(), true);
+	EXPECT_EQ(l.board[29].is_border(), true);
 }
+
+TEST(LifeFixture, life_construct2) {
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<Cell> l(in);
+
+	EXPECT_EQ(l.width, 3);
+	EXPECT_EQ(l.height, 4);
+	EXPECT_EQ(l.board.size(), (l.width + 2) * (l.height + 2));
+
+	EXPECT_EQ(l.board[0].acell->is_border(), true);
+	EXPECT_EQ(l.board[1].acell->is_border(), true);
+	EXPECT_EQ(l.board[2].acell->is_border(), true);
+	EXPECT_EQ(l.board[3].acell->is_border(), true);
+	EXPECT_EQ(l.board[4].acell->is_border(), true);
+
+	EXPECT_EQ(l.board[5].acell->is_border(), true);
+	EXPECT_EQ(l.board[6].acell->is_border(), false); EXPECT_EQ(l.board[6].acell->is_alive(), false);
+	EXPECT_EQ(l.board[7].acell->is_border(), false); EXPECT_EQ(l.board[6].acell->is_alive(), false);
+	EXPECT_EQ(l.board[8].acell->is_border(), false); EXPECT_EQ(l.board[6].acell->is_alive(), false);
+	EXPECT_EQ(l.board[9].acell->is_border(), true);
+
+	EXPECT_EQ(l.board[10].acell->is_border(), true);
+	EXPECT_EQ(l.board[11].acell->is_border(), false); EXPECT_EQ(l.board[11].acell->is_alive(), false);
+	EXPECT_EQ(l.board[12].acell->is_border(), false); EXPECT_EQ(l.board[12].acell->is_alive(), true);
+	EXPECT_EQ(l.board[13].acell->is_border(), false); EXPECT_EQ(l.board[13].acell->is_alive(), false);
+	EXPECT_EQ(l.board[14].acell->is_border(), true);
+
+	EXPECT_EQ(l.board[15].acell->is_border(), true);
+	EXPECT_EQ(l.board[16].acell->is_border(), false); EXPECT_EQ(l.board[16].acell->is_alive(), false);
+	EXPECT_EQ(l.board[17].acell->is_border(), false); EXPECT_EQ(l.board[17].acell->is_alive(), false);
+	EXPECT_EQ(l.board[18].acell->is_border(), false); EXPECT_EQ(l.board[18].acell->is_alive(), false);
+	EXPECT_EQ(l.board[19].acell->is_border(), true);
+
+	EXPECT_EQ(l.board[20].acell->is_border(), true);
+	EXPECT_EQ(l.board[21].acell->is_border(), false); EXPECT_EQ(l.board[21].acell->is_alive(), true);
+	EXPECT_EQ(l.board[22].acell->is_border(), false); EXPECT_EQ(l.board[22].acell->is_alive(), false);
+	EXPECT_EQ(l.board[23].acell->is_border(), false); EXPECT_EQ(l.board[23].acell->is_alive(), false);
+	EXPECT_EQ(l.board[24].acell->is_border(), true);
+
+	EXPECT_EQ(l.board[25].acell->is_border(), true);
+	EXPECT_EQ(l.board[26].acell->is_border(), true);
+	EXPECT_EQ(l.board[27].acell->is_border(), true);
+	EXPECT_EQ(l.board[28].acell->is_border(), true);
+	EXPECT_EQ(l.board[29].acell->is_border(), true);
+}
+
+TEST(LifeFixture, life_at1) {
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<ConwayCell> l(in);
+
+	ConwayCell& c1 = l.at(0, 0);
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	ConwayCell& c2 = l.at(1, 1);
+	ASSERT_EQ(c2.is_alive(), true); ASSERT_EQ(c2.is_border(), false);
+
+	ConwayCell& c3 = l.at(2, 0);
+	ASSERT_EQ(c3.is_alive(), false); ASSERT_EQ(c3.is_border(), false);
+
+}
+
+TEST(LifeFixture, life_at2) {
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<Cell> l(in);
+
+	Cell& c1 = l.at(0, 0);
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+
+	Cell& c2 = l.at(1, 1);
+	ASSERT_EQ(c2.acell->is_alive(), true); ASSERT_EQ(c2.acell->is_border(), false);
+
+	Cell& c3 = l.at(2, 0);
+	ASSERT_EQ(c3.acell->is_alive(), false); ASSERT_EQ(c3.acell->is_border(), false);
+
+}
+
+
+
 /*
 TEST(LifeFixture, life_print1) {
 
