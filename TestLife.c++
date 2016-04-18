@@ -338,8 +338,8 @@ TEST(LifeFixture, life_construct1) {
 
 	EXPECT_EQ(l.board[5].is_border(), true);
 	EXPECT_EQ(l.board[6].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
-	EXPECT_EQ(l.board[7].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
-	EXPECT_EQ(l.board[8].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
+	EXPECT_EQ(l.board[7].is_border(), false); EXPECT_EQ(l.board[7].is_alive(), false);
+	EXPECT_EQ(l.board[8].is_border(), false); EXPECT_EQ(l.board[8].is_alive(), false);
 	EXPECT_EQ(l.board[9].is_border(), true);
 
 	EXPECT_EQ(l.board[10].is_border(), true);
@@ -384,8 +384,8 @@ TEST(LifeFixture, life_construct2) {
 
 	EXPECT_EQ(l.board[5].acell->is_border(), true);
 	EXPECT_EQ(l.board[6].acell->is_border(), false); EXPECT_EQ(l.board[6].acell->is_alive(), false);
-	EXPECT_EQ(l.board[7].acell->is_border(), false); EXPECT_EQ(l.board[6].acell->is_alive(), false);
-	EXPECT_EQ(l.board[8].acell->is_border(), false); EXPECT_EQ(l.board[6].acell->is_alive(), false);
+	EXPECT_EQ(l.board[7].acell->is_border(), false); EXPECT_EQ(l.board[7].acell->is_alive(), false);
+	EXPECT_EQ(l.board[8].acell->is_border(), false); EXPECT_EQ(l.board[8].acell->is_alive(), false);
 	EXPECT_EQ(l.board[9].acell->is_border(), true);
 
 	EXPECT_EQ(l.board[10].acell->is_border(), true);
@@ -411,6 +411,52 @@ TEST(LifeFixture, life_construct2) {
 	EXPECT_EQ(l.board[27].acell->is_border(), true);
 	EXPECT_EQ(l.board[28].acell->is_border(), true);
 	EXPECT_EQ(l.board[29].acell->is_border(), true);
+}
+
+TEST(LifeFixture, life_construct3) {
+	istringstream in("-1-\n0+3\n---\n45-\n\n");
+
+	Life<FredkinCell> l(in);
+
+	EXPECT_EQ(l.width, 3);
+	EXPECT_EQ(l.height, 4);
+	EXPECT_EQ(l.board.size(), (l.width + 2) * (l.height + 2));
+
+	EXPECT_EQ(l.board[0].is_border(), true);
+	EXPECT_EQ(l.board[1].is_border(), true);
+	EXPECT_EQ(l.board[2].is_border(), true);
+	EXPECT_EQ(l.board[3].is_border(), true);
+	EXPECT_EQ(l.board[4].is_border(), true);
+
+	EXPECT_EQ(l.board[5].is_border(), true);
+	EXPECT_EQ(l.board[6].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
+	EXPECT_EQ(l.board[7].is_border(), false); EXPECT_EQ(l.board[7].is_alive(), true); EXPECT_EQ(l.board[7].age, 1);
+	EXPECT_EQ(l.board[8].is_border(), false); EXPECT_EQ(l.board[8].is_alive(), false);
+	EXPECT_EQ(l.board[9].is_border(), true);
+
+	EXPECT_EQ(l.board[10].is_border(), true);
+	EXPECT_EQ(l.board[11].is_border(), false); EXPECT_EQ(l.board[11].is_alive(), true); EXPECT_EQ(l.board[11].age, 0);
+	EXPECT_EQ(l.board[12].is_border(), false); EXPECT_EQ(l.board[12].is_alive(), true); EXPECT_GE(l.board[12].age, 10);
+	EXPECT_EQ(l.board[13].is_border(), false); EXPECT_EQ(l.board[13].is_alive(), true); EXPECT_EQ(l.board[13].age, 3);
+	EXPECT_EQ(l.board[14].is_border(), true);
+
+	EXPECT_EQ(l.board[15].is_border(), true);
+	EXPECT_EQ(l.board[16].is_border(), false); EXPECT_EQ(l.board[16].is_alive(), false);
+	EXPECT_EQ(l.board[17].is_border(), false); EXPECT_EQ(l.board[17].is_alive(), false);
+	EXPECT_EQ(l.board[18].is_border(), false); EXPECT_EQ(l.board[18].is_alive(), false);
+	EXPECT_EQ(l.board[19].is_border(), true);
+
+	EXPECT_EQ(l.board[20].is_border(), true);
+	EXPECT_EQ(l.board[21].is_border(), false); EXPECT_EQ(l.board[21].is_alive(), true); EXPECT_EQ(l.board[21].age, 4);
+	EXPECT_EQ(l.board[22].is_border(), false); EXPECT_EQ(l.board[22].is_alive(), true); EXPECT_EQ(l.board[22].age, 5);
+	EXPECT_EQ(l.board[23].is_border(), false); EXPECT_EQ(l.board[23].is_alive(), false);
+	EXPECT_EQ(l.board[24].is_border(), true);
+
+	EXPECT_EQ(l.board[25].is_border(), true);
+	EXPECT_EQ(l.board[26].is_border(), true);
+	EXPECT_EQ(l.board[27].is_border(), true);
+	EXPECT_EQ(l.board[28].is_border(), true);
+	EXPECT_EQ(l.board[29].is_border(), true);
 }
 
 TEST(LifeFixture, life_at1) {
@@ -442,7 +488,6 @@ TEST(LifeFixture, life_at2) {
 
 	Cell& c3 = l.at(2, 0);
 	ASSERT_EQ(c3.acell->is_alive(), false); ASSERT_EQ(c3.acell->is_border(), false);
-
 }
 
 

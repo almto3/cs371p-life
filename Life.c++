@@ -52,12 +52,9 @@ ostream& ConwayCell::print(ostream& out) const {
 		return out << '.';
 }
 
-/*
-*
-	FREDKIN
-*
-*/
-
+// -----------
+// FredkinCell
+// -----------
 
 FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 	if (input == '-') {
@@ -125,8 +122,10 @@ Cell::Cell(const Cell& c) {
 }
 
 Cell::Cell(const char& c) {
-	// TODO: check if it's a Conway or Fredkin
-	acell = new ConwayCell(c);
+	if (c == '.' || c == '*')
+		acell = new ConwayCell(c);
+	else
+		acell = new FredkinCell(c);
 }
 
 /*Cell::~Cell() {
@@ -158,8 +157,3 @@ istream& operator>>(istream& in, Cell& c) {
 // ----
 // Life
 // ----
-/*
-template<> Cell& Life<Cell>::at(int x, int y) {
-	return board[(x + 1) * (width + 2) + y + 1];
-}
-*/

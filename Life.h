@@ -65,6 +65,7 @@ protected:
 	FRIEND_TEST(FredkinFixture, fredkin_construct3);
 	FRIEND_TEST(FredkinFixture, fredkin_construct4);
 	FRIEND_TEST(FredkinFixture, fredkin_construct5);
+	FRIEND_TEST(LifeFixture, life_construct3);
 };
 
 class Cell {
@@ -98,8 +99,6 @@ public:
 
 		while (true) {
 			int input = in.get();
-
-			//std::cerr << "input '" << (char)input << "' width " << width << " height " << height << " last_char_was_newline " << last_char_was_newline << std::endl;
 
 			if (input == '\n' || input == EOF) {
 				if (last_char_was_newline)
@@ -137,18 +136,8 @@ public:
 		for (int i = 0; i < width + 2; i++)
 			board.push_back(T(true));
 
-		//for (Cell n : temp_board)
-		//	std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
-
 		// Put the rest of the board after the top border
 		board.insert(board.end(), temp_board.begin(), temp_board.end());
-
-		//std::cerr << "\n\n\n\n\n\n";
-
-		//for (Cell n : board)
-		//	std::cerr << "alive = " << n.acell->is_alive << ", border = " << n.acell->is_border << std::endl;
-
-		//print(std::cerr);
 	}
 
 	void print(std::ostream& out) {
@@ -181,6 +170,7 @@ private:
 
 	FRIEND_TEST(LifeFixture, life_construct1);
 	FRIEND_TEST(LifeFixture, life_construct2);
+	FRIEND_TEST(LifeFixture, life_construct3);
 };
 
 #endif
