@@ -152,12 +152,31 @@ public:
 	void evolve_all() {
 		population = 0;
 
-		// for each cell inside the borders:
-		//  find neighbors
-		// 	new_cell = cell + neighbors
-		// 	save the evolved cell to temp board
+		std::vector<T> temp_board;
+
+		for (int x = 0; x < height; x++) {
+			for (int y = 0; y < width; y++) {
+				T cell = at(x, y);
+				std::vector<T> neighbors;
+
+				neighbors.push_back(at(x, y-1));		//up
+				neighbors.push_back(at(x+1, y));		//right
+				neighbors.push_back(at(x, y+1));		//down
+				neighbors.push_back(at(x-1, y));		//left
+				neighbors.push_back(at(x+1, y-1));		//top-right
+				neighbors.push_back(at(x+1, y+1));		//bottom-right
+				neighbors.push_back(at(x-1, y+1));		//bottom-left
+				neighbors.push_back(at(x-1, y-1));		//top-left
+
+				T new_cell = cell + neighbors;
+
+				temp_board.push_back(new_cell);
+			}
+		}
+
+		board.swap(temp_board);
+
 		//  if evolved cell is alive, increment population
-		// swap temp board and board
 	}
 
 	T& at(int x, int y) {
