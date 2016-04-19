@@ -9,15 +9,8 @@
 class Cell;
 
 class AbstractCell {
-	/*friend AbstractCell operator+(AbstractCell& old_cell, std::vector<AbstractCell> neigbors) {
-		return old_cell;
-	}*/
-	friend std::ostream& operator<<(std::ostream& out, const AbstractCell& c) {
-		return c.print(out);
-	}
-	friend std::istream& operator>>(std::istream& in, AbstractCell& c) {
-		return in;
-	}
+	friend std::ostream& operator<<(std::ostream& out, const AbstractCell& c);
+	friend std::istream& operator>>(std::istream& in, AbstractCell& c);
 
 protected:
 	bool alive;
@@ -34,11 +27,13 @@ public:
 
 	AbstractCell(bool border_ = false) : border(border_) {}
 
-	const bool is_alive() { return alive; }
-	const bool is_border() { return border; }
+	virtual const bool is_alive() const { return alive; }
+	virtual const bool is_border() const { return border; }
 };
 
 class ConwayCell : public AbstractCell {
+	friend ConwayCell operator+(ConwayCell old_cell, std::vector<ConwayCell> neighbors);
+
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
@@ -49,6 +44,8 @@ public:
 };
 
 class FredkinCell : public AbstractCell {
+	friend FredkinCell operator+(FredkinCell old_cell, std::vector<FredkinCell> neighbors);
+
 public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
 	FredkinCell(const char& input);
@@ -58,18 +55,19 @@ public:
 
 	FredkinCell* clone() const;
 
+	const int age() const;
+
 protected:
-	int age;
+	int age_;
 	FRIEND_TEST(FredkinFixture, fredkin_construct1);
 	FRIEND_TEST(FredkinFixture, fredkin_construct2);
 	FRIEND_TEST(FredkinFixture, fredkin_construct3);
 	FRIEND_TEST(FredkinFixture, fredkin_construct4);
 	FRIEND_TEST(FredkinFixture, fredkin_construct5);
-	FRIEND_TEST(LifeFixture, life_construct3);
 };
 
 class Cell {
-	//friend Cell operator+(Cell& old_cell, std::vector<Cell> neigbors);
+	friend Cell operator+(Cell old_cell, std::vector<Cell> neigbors);
 	friend std::ostream& operator<<(std::ostream& out, const Cell c);
 	friend std::istream& operator>>(std::istream& in, Cell& c);
 
@@ -151,11 +149,15 @@ public:
 		}
 	}
 
-	void evolve_all();
+	void evolve_all() {
+		// do stuff
+	}
 
-	// We have a version specific to Cell in Life.c++
 	T& at(int x, int y) {
-		return board[(x + 1) * (width + 2) + y + 1];
+		return board.at((x + 1) * (width + 2) + y + 1);
+	}
+	const T& at(int x, int y) const {
+		return board.at((x + 1) * (width + 2) + y + 1);
 	}
 
 	T* begin();

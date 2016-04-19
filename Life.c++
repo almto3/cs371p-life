@@ -6,6 +6,18 @@
 
 using namespace std;
 
+// ------------
+// AbstractCell
+// ------------
+
+ostream& operator<<(ostream& out, const AbstractCell& c) {
+	return c.print(out);
+}
+
+istream& operator>>(istream& in, AbstractCell& c) {
+	return in;
+}
+
 // ----------
 // ConwayCell
 // ----------
@@ -19,6 +31,14 @@ ConwayCell::ConwayCell(const char& input) {
 		alive = true;
 	else
 		alive = false;
+}
+
+ConwayCell operator+(ConwayCell old_cell, vector<ConwayCell> neighbors) {
+	std::vector<Cell> new_neighbors;
+	for (ConwayCell c : neighbors)
+		new_neighbors.push_back(Cell(&c));
+
+	return *(dynamic_cast<ConwayCell *>(old_cell.evolve(new_neighbors).acell));
 }
 
 ConwayCell* ConwayCell::clone() const {
@@ -58,19 +78,27 @@ ostream& ConwayCell::print(ostream& out) const {
 
 FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 	if (input == '-') {
-		age = 0;
+		age_ = 0;
 		alive = false;
 	} else if (input >= '0' && input <= '9') {
-		age = input - '0';
+		age_ = input - '0';
 		alive = true;
 	} else {
-		age = 10;
+		age_ = 10;
 		alive = true;
 	}
 }
 
-FredkinCell::FredkinCell(int age_, bool alive_) : AbstractCell(false) {
-	age = age_;
+FredkinCell operator+(FredkinCell old_cell, vector<FredkinCell> neighbors) {
+	std::vector<Cell> new_neighbors;
+	for (FredkinCell c : neighbors)
+		new_neighbors.push_back(Cell(&c));
+
+	return *(dynamic_cast<FredkinCell *>(old_cell.evolve(new_neighbors).acell));
+}
+
+FredkinCell::FredkinCell(int a, bool alive_) : AbstractCell(false) {
+	age_ = a;
 	alive = alive_;
 }
 
@@ -89,15 +117,15 @@ Cell FredkinCell::evolve(vector<Cell> neighbors) {
 
 	if (alive) {
 		if (live_neighbors == 0 || live_neighbors == 2 || live_neighbors == 4)
-			return Cell(new FredkinCell(age, false));
+			return Cell(new FredkinCell(age_, false));
 		else {
-			return Cell(new FredkinCell(age + 1, true));
+			return Cell(new FredkinCell(age_ + 1, true));
 		}
 	} else { // dead
 		if (live_neighbors == 3 || live_neighbors == 1)
-			return Cell(new FredkinCell(age, true));
+			return Cell(new FredkinCell(age_, true));
 		else
-			return Cell(new FredkinCell(age, false));
+			return Cell(new FredkinCell(age_, false));
 	}
 
 }
@@ -106,11 +134,15 @@ ostream& FredkinCell::print(ostream& out) const {
 	if (!alive)
 		return out << '-';
 	else {
-		if (age < 10) 
-			return out << age;
+		if (age_ < 10) 
+			return out << age_;
 		else 
 			return out << '+';
 	}
+}
+
+const int FredkinCell::age() const {
+	return age_;
 }
 
 // ----
@@ -137,9 +169,17 @@ Cell& Cell::operator=(const Cell& rhs) {
 	return *this;
 }
 
-/*Cell operator+(Cell& old_cell, vector<Cell> neighbors) {
-	return old_cell.acell->evolve(neighbors);
-}*/
+Cell operator+(Cell old_cell, vector<Cell> neighbors) {
+	Cell new_cell = old_cell.acell->evolve(neighbors);
+
+	// If Life is instantiated with Cell, then when a FredkinCell's age is to become 2, and only then, it becomes a live ConwayCell instead.
+	FredkinCell *fc;
+	if ((fc = dynamic_cast<FredkinCell *>(new_cell.acell)) != nullptr)
+		if (fc->age() == 2)
+			new_cell = Cell(new ConwayCell('*'));
+
+	return new_cell;
+}
 
 ostream& operator<<(ostream& out, const Cell c) {
 	return c.acell->print(out);

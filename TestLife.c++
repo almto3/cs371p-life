@@ -80,7 +80,28 @@ TEST_P(ConwayEvolutionFixture, conway_evolve) {
 	Cell c2 = c.evolve(neighbors);
 
 	ostringstream s;
-	c2.acell->print(s);
+	s << c2;
+	ASSERT_EQ(s.str()[0], expected);
+}
+
+TEST_P(ConwayEvolutionFixture, conway_evolve_plus) {
+	vector<char> param = GetParam();
+
+	char expected = param.back();
+	param.pop_back();
+	char cell_value = param.back();
+	param.pop_back();
+
+	vector<ConwayCell> neighbors;
+	for (char c : param) {
+		neighbors.push_back(ConwayCell(c));
+	}
+
+	ConwayCell c = ConwayCell(cell_value);
+	ConwayCell c2 = c + neighbors;
+
+	ostringstream s;
+	s << c2;
 	ASSERT_EQ(s.str()[0], expected);
 }
 
@@ -116,35 +137,35 @@ TEST(FredkinFixture, fredkin_construct1) {
 	FredkinCell f = FredkinCell('-');
 	ASSERT_EQ(f.is_alive(), false);
 	ASSERT_EQ(f.is_border(), false);
-	ASSERT_EQ(f.age, 0);
+	ASSERT_EQ(f.age(), 0);
 }
 
 TEST(FredkinFixture, fredkin_construct2) {
 	FredkinCell f = FredkinCell('0');
 	ASSERT_EQ(f.is_alive(), true);
 	ASSERT_EQ(f.is_border(), false);
-	ASSERT_EQ(f.age, 0);
+	ASSERT_EQ(f.age(), 0);
 }
 
 TEST(FredkinFixture, fredkin_construct3) {
 	FredkinCell f = FredkinCell('5');
 	ASSERT_EQ(f.is_alive(), true);
 	ASSERT_EQ(f.is_border(), false);
-	ASSERT_EQ(f.age, 5);
+	ASSERT_EQ(f.age(), 5);
 }
 
 TEST(FredkinFixture, fredkin_construct4) {
 	FredkinCell f = FredkinCell('9');
 	ASSERT_EQ(f.is_alive(), true);
 	ASSERT_EQ(f.is_border(), false);
-	ASSERT_EQ(f.age, 9);
+	ASSERT_EQ(f.age(), 9);
 }
 
 TEST(FredkinFixture, fredkin_construct5) {
 	FredkinCell f = FredkinCell('+');
 	ASSERT_EQ(f.is_alive(), true);
 	ASSERT_EQ(f.is_border(), false);
-	ASSERT_GE(f.age, 10);
+	ASSERT_GE(f.age(), 10);
 }
 
 TEST(FredkinFixture, fredkin_output1) {
@@ -191,7 +212,6 @@ class FredkinEvolutionFixture : public ::testing::TestWithParam<vector<char>> {
 	// Fixture for running tests of evolution. The argument is a vector containing the neighbors, then the value of the cell, then the expected value
 };
 
-
 TEST_P(FredkinEvolutionFixture, fredkin_evolve) {
 	vector<char> param = GetParam();
 
@@ -209,9 +229,31 @@ TEST_P(FredkinEvolutionFixture, fredkin_evolve) {
 	Cell c2 = c.evolve(neighbors);
 
 	ostringstream s;
-	c2.acell->print(s);
+	s << c2;
 	ASSERT_EQ(s.str()[0], expected);
 }
+
+TEST_P(FredkinEvolutionFixture, fredkin_evolve_plus) {
+	vector<char> param = GetParam();
+
+	char expected = param.back();
+	param.pop_back();
+	char cell_value = param.back();
+	param.pop_back();
+
+	vector<FredkinCell> neighbors;
+	for (char c : param) {
+		neighbors.push_back(FredkinCell(c));
+	}
+
+	FredkinCell c = FredkinCell(cell_value);
+	FredkinCell c2 = c + neighbors;
+
+	ostringstream s;
+	s << c2;
+	ASSERT_EQ(s.str()[0], expected);
+}
+
 
 INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive, FredkinEvolutionFixture, ::testing::Values(
 	vector<char>({'-', '-', '-', '-', '-', '-', '-', '-',   '0', '-'}),
@@ -250,16 +292,16 @@ INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive2, FredkinEvolutionFixture, ::testi
 
 	vector<char>({'-', '-', '-', '-', '2', '-', '4', '-',   '5', '-'}),
 	vector<char>({'6', '-', '-', '-', '-', '5', '-', '-',   '+', '+'}),
-	vector<char>({'2', '5', '-', '-', '3', '-', '-', '1',   '2', '-'}),
+	vector<char>({'2', '5', '-', '-', '3', '-', '-', '1',   '1', '-'}),
 	vector<char>({'2', '8', '2', '-', '0', '-', '5', '-',   '5', '6'}),
 	vector<char>({'1', '2', '+', '2', '3', '4', '-', '-',   '0', '-'})
 	));
 
 // TODO: test when FredkinCells and ConwayCells border each other
 
-// --------
-// CellTest
-// --------
+// -----------
+// CellFixture
+// -----------
 
 TEST(CellFixture, cell_conway_copy_constructor1) {
 	ConwayCell* cc = new ConwayCell('*');
@@ -316,6 +358,34 @@ TEST(CellFixture, cell_conway_copy_assignment2) {
 	delete cc;
 	ASSERT_EQ(c2.acell->is_alive(), false);
 }
+
+
+class CellEvolutionFixture : public ::testing::TestWithParam<vector<char>> {
+	// Fixture for running tests of evolution. The argument is a vector containing the neighbors, then the value of the cell, then the expected value
+};
+
+TEST_P(CellEvolutionFixture, cell_evolve) {
+	vector<char> param = GetParam();
+
+	char expected = param.back();
+	param.pop_back();
+	char cell_value = param.back();
+	param.pop_back();
+
+	vector<Cell> neighbors;
+	for (char c : param) {
+		neighbors.push_back(Cell(c));
+	}
+
+	Cell c = Cell(cell_value);
+	Cell c2 = c + neighbors;
+
+	ostringstream s;
+	s << c2;
+	ASSERT_EQ(s.str()[0], expected);
+}
+
+// TODO: add some cell evolution tests (including changing from FredkinCell to ConwayCell)
 
 // --------
 // LifeTest
@@ -430,14 +500,14 @@ TEST(LifeFixture, life_construct3) {
 
 	EXPECT_EQ(l.board[5].is_border(), true);
 	EXPECT_EQ(l.board[6].is_border(), false); EXPECT_EQ(l.board[6].is_alive(), false);
-	EXPECT_EQ(l.board[7].is_border(), false); EXPECT_EQ(l.board[7].is_alive(), true); EXPECT_EQ(l.board[7].age, 1);
+	EXPECT_EQ(l.board[7].is_border(), false); EXPECT_EQ(l.board[7].is_alive(), true); EXPECT_EQ(l.board[7].age(), 1);
 	EXPECT_EQ(l.board[8].is_border(), false); EXPECT_EQ(l.board[8].is_alive(), false);
 	EXPECT_EQ(l.board[9].is_border(), true);
 
 	EXPECT_EQ(l.board[10].is_border(), true);
-	EXPECT_EQ(l.board[11].is_border(), false); EXPECT_EQ(l.board[11].is_alive(), true); EXPECT_EQ(l.board[11].age, 0);
-	EXPECT_EQ(l.board[12].is_border(), false); EXPECT_EQ(l.board[12].is_alive(), true); EXPECT_GE(l.board[12].age, 10);
-	EXPECT_EQ(l.board[13].is_border(), false); EXPECT_EQ(l.board[13].is_alive(), true); EXPECT_EQ(l.board[13].age, 3);
+	EXPECT_EQ(l.board[11].is_border(), false); EXPECT_EQ(l.board[11].is_alive(), true); EXPECT_EQ(l.board[11].age(), 0);
+	EXPECT_EQ(l.board[12].is_border(), false); EXPECT_EQ(l.board[12].is_alive(), true); EXPECT_GE(l.board[12].age(), 10);
+	EXPECT_EQ(l.board[13].is_border(), false); EXPECT_EQ(l.board[13].is_alive(), true); EXPECT_EQ(l.board[13].age(), 3);
 	EXPECT_EQ(l.board[14].is_border(), true);
 
 	EXPECT_EQ(l.board[15].is_border(), true);
@@ -447,8 +517,8 @@ TEST(LifeFixture, life_construct3) {
 	EXPECT_EQ(l.board[19].is_border(), true);
 
 	EXPECT_EQ(l.board[20].is_border(), true);
-	EXPECT_EQ(l.board[21].is_border(), false); EXPECT_EQ(l.board[21].is_alive(), true); EXPECT_EQ(l.board[21].age, 4);
-	EXPECT_EQ(l.board[22].is_border(), false); EXPECT_EQ(l.board[22].is_alive(), true); EXPECT_EQ(l.board[22].age, 5);
+	EXPECT_EQ(l.board[21].is_border(), false); EXPECT_EQ(l.board[21].is_alive(), true); EXPECT_EQ(l.board[21].age(), 4);
+	EXPECT_EQ(l.board[22].is_border(), false); EXPECT_EQ(l.board[22].is_alive(), true); EXPECT_EQ(l.board[22].age(), 5);
 	EXPECT_EQ(l.board[23].is_border(), false); EXPECT_EQ(l.board[23].is_alive(), false);
 	EXPECT_EQ(l.board[24].is_border(), true);
 
