@@ -38,14 +38,18 @@ ConwayCell operator+(ConwayCell old_cell, vector<ConwayCell> neighbors) {
 	for (ConwayCell c : neighbors)
 		new_neighbors.push_back(Cell(&c));
 
-	return *(dynamic_cast<ConwayCell *>(old_cell.evolve(new_neighbors).acell));
+	Cell evolved = old_cell.evolve(new_neighbors);
+	ConwayCell new_cell = *(dynamic_cast<ConwayCell *>(evolved.acell));
+
+	return new_cell;
 }
+
 
 ConwayCell* ConwayCell::clone() const {
 	return new ConwayCell(*this);
 }
 
-Cell ConwayCell::evolve(vector<Cell> neighbors) {
+Cell ConwayCell::evolve(vector<Cell> neighbors) const {
 	int live_neighbors = 0;
 
 	for (Cell n : neighbors)
@@ -94,7 +98,12 @@ FredkinCell operator+(FredkinCell old_cell, vector<FredkinCell> neighbors) {
 	for (FredkinCell c : neighbors)
 		new_neighbors.push_back(Cell(&c));
 
-	return *(dynamic_cast<FredkinCell *>(old_cell.evolve(new_neighbors).acell));
+	Cell evolved = old_cell.evolve(new_neighbors);
+	FredkinCell new_cell = *(dynamic_cast<FredkinCell *>(evolved.acell));
+
+	new_neighbors.clear();
+
+	return new_cell;
 }
 
 FredkinCell::FredkinCell(int a, bool alive_) : AbstractCell(false) {
@@ -106,7 +115,7 @@ FredkinCell* FredkinCell::clone() const {
 	return new FredkinCell(*this);
 }
 
-Cell FredkinCell::evolve(vector<Cell> neighbors) {
+Cell FredkinCell::evolve(vector<Cell> neighbors) const {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 4; i++){
@@ -160,9 +169,9 @@ Cell::Cell(const char& c) {
 		acell = new FredkinCell(c);
 }
 
-/*Cell::~Cell() {
+Cell::~Cell() {
 	delete acell;
-}*/
+}
 
 Cell& Cell::operator=(const Cell& rhs) {
 	acell = rhs.acell->clone();
@@ -192,8 +201,3 @@ istream& operator>>(istream& in, Cell& c) {
 
 	return in;
 }
-
-
-// ----
-// Life
-// ----

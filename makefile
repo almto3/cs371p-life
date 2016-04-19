@@ -18,7 +18,7 @@ GCOV       := gcov-4.8
 GCOVFLAGS  := -fprofile-arcs -ftest-coverage
 GPROF      := gprof
 GPROFFLAGS := -pg
-VALGRIND   := valgrind
+VALGRIND   := valgrind --leak-check=full
 
 life-tests:
 	git clone https://github.com/cs371p-spring-2016/life-tests.git

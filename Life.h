@@ -21,7 +21,7 @@ public:
 	  									4 X 2
 	  									7 3 6
 	*/
-	virtual Cell evolve(std::vector<Cell> neighbors) = 0;
+	virtual Cell evolve(std::vector<Cell> neighbors) const = 0;
 	virtual std::ostream& print(std::ostream& out) const = 0;
 	virtual AbstractCell* clone() const = 0;
 
@@ -38,7 +38,7 @@ public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(std::vector<Cell> neighbors);
+	Cell evolve(std::vector<Cell> neighbors) const;
 
 	ConwayCell* clone() const;
 };
@@ -51,7 +51,7 @@ public:
 	FredkinCell(const char& input);
 	FredkinCell(int age_, bool alive_);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(std::vector<Cell> neighbors);
+	Cell evolve(std::vector<Cell> neighbors) const;
 
 	FredkinCell* clone() const;
 
@@ -78,7 +78,7 @@ public:
 	Cell(bool border_) : acell(new ConwayCell(border_)) {}
 	Cell(const char& c);
 	Cell(const Cell& c);
-	//~Cell();
+	~Cell();
 	Cell& operator=(const Cell& rhs);
 };
 
@@ -150,7 +150,14 @@ public:
 	}
 
 	void evolve_all() {
-		// do stuff
+		population = 0;
+
+		// for each cell inside the borders:
+		//  find neighbors
+		// 	new_cell = cell + neighbors
+		// 	save the evolved cell to temp board
+		//  if evolved cell is alive, increment population
+		// swap temp board and board
 	}
 
 	T& at(int x, int y) {

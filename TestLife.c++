@@ -43,19 +43,25 @@ TEST(ConwayFixture, conway_output2) {
 
 
 TEST(ConwayFixture, conway_clone1) {
-	ConwayCell* c = new ConwayCell('*');
-	ASSERT_EQ(c->is_alive(), true);
+	ConwayCell c = ConwayCell('*');
+	ASSERT_EQ(c.is_alive(), true);
 
-	ConwayCell* c2 = c->clone();
+	ConwayCell* c2 = c.clone();
+	c = ConwayCell('.');
 	ASSERT_EQ(c2->is_alive(), true);
+
+	delete c2;
 }
 
 TEST(ConwayFixture, conway_clone2) {
-	ConwayCell* c = new ConwayCell('.');
-	ASSERT_EQ(c->is_alive(), false);
+	ConwayCell c = ConwayCell('.');
+	ASSERT_EQ(c.is_alive(), false);
 
-	ConwayCell* c2 = c->clone();
+	ConwayCell* c2 = c.clone();
+	c = ConwayCell('*');
 	ASSERT_EQ(c2->is_alive(), false);
+
+	delete c2;
 }
 
 
@@ -78,6 +84,8 @@ TEST_P(ConwayEvolutionFixture, conway_evolve) {
 
 	ConwayCell c = ConwayCell(cell_value);
 	Cell c2 = c.evolve(neighbors);
+
+	neighbors.clear();
 
 	ostringstream s;
 	s << c2;
@@ -228,6 +236,8 @@ TEST_P(FredkinEvolutionFixture, fredkin_evolve) {
 	FredkinCell c = FredkinCell(cell_value);
 	Cell c2 = c.evolve(neighbors);
 
+	neighbors.clear();
+
 	ostringstream s;
 	s << c2;
 	ASSERT_EQ(s.str()[0], expected);
@@ -304,58 +314,62 @@ INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive2, FredkinEvolutionFixture, ::testi
 // -----------
 
 TEST(CellFixture, cell_conway_copy_constructor1) {
-	ConwayCell* cc = new ConwayCell('*');
-	ASSERT_EQ(cc->is_alive(), true);
+	ConwayCell cc = ConwayCell('*');
+	ASSERT_EQ(cc.is_alive(), true);
 
-	Cell c = Cell(cc);
+	Cell c = Cell(&cc);
 	ASSERT_EQ(c.acell->is_alive(), true);
 
 	Cell c2 = c;
-	delete cc;
+	c.acell = new ConwayCell('.');
 	ASSERT_EQ(c2.acell->is_alive(), true);
 }
 
 TEST(CellFixture, cell_conway_copy_constructor2) {
-	ConwayCell* cc = new ConwayCell('.');
-	ASSERT_EQ(cc->is_alive(), false);
+	ConwayCell cc = ConwayCell('.');
+	ASSERT_EQ(cc.is_alive(), false);
 
-	Cell c = Cell(cc);
+	Cell c = Cell(&cc);
 	ASSERT_EQ(c.acell->is_alive(), false);
 
 	Cell c2 = c;
-	delete cc;
+	c.acell = new ConwayCell('*');
 	ASSERT_EQ(c2.acell->is_alive(), false);
 }
 
 TEST(CellFixture, cell_conway_copy_assignment1) {
-	ConwayCell* cc = new ConwayCell('*');
-	ASSERT_EQ(cc->is_alive(), true);
+	ConwayCell cc = ConwayCell('*');
+	ASSERT_EQ(cc.is_alive(), true);
 
-	ConwayCell* cc2 = new ConwayCell('.');
-	ASSERT_EQ(cc2->is_alive(), false);
+	ConwayCell cc2 = ConwayCell('.');
+	ASSERT_EQ(cc2.is_alive(), false);
 
-	Cell c = Cell(cc);
+	Cell c = Cell(&cc);
 	ASSERT_EQ(c.acell->is_alive(), true);
 
-	Cell c2 = Cell(cc2);
+	Cell c2 = Cell(&cc2);
+	ASSERT_EQ(c2.acell->is_alive(), false);
+
 	c2 = c;
-	delete cc;
+	c.acell = new ConwayCell('.');
 	ASSERT_EQ(c2.acell->is_alive(), true);
 }
 
 TEST(CellFixture, cell_conway_copy_assignment2) {
-	ConwayCell* cc = new ConwayCell('.');
-	ASSERT_EQ(cc->is_alive(), false);
+	ConwayCell cc = ConwayCell('.');
+	ASSERT_EQ(cc.is_alive(), false);
 
-	ConwayCell* cc2 = new ConwayCell('*');
-	ASSERT_EQ(cc2->is_alive(), true);
+	ConwayCell cc2 = ConwayCell('*');
+	ASSERT_EQ(cc2.is_alive(), true);
 
-	Cell c = Cell(cc);
+	Cell c = Cell(&cc);
 	ASSERT_EQ(c.acell->is_alive(), false);
 
-	Cell c2 = Cell(cc2);
+	Cell c2 = Cell(&cc2);
+	ASSERT_EQ(c2.acell->is_alive(), true);
+
 	c2 = c;
-	delete cc;
+	c.acell = new ConwayCell('*');
 	ASSERT_EQ(c2.acell->is_alive(), false);
 }
 
