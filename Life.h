@@ -83,6 +83,8 @@ public:
 	Cell(const Cell& c);
 	~Cell();
 	Cell& operator=(const Cell& rhs);
+
+	bool is_alive() const;
 };
 
 template <class T>
@@ -142,21 +144,25 @@ public:
 	}
 
 	void print(std::ostream& out) {
+		out << "Generation = " << generation << ", Population = " << population << "." << std::endl;
 		for (int x = 1; x < height + 1; x++) {
 			for (int y = 1; y < width + 1; y++) {
 				T c = board[x * (width + 2) + y];
 
 				out << c;
 			}
-			out << "\n";
+			out << std::endl;
 		}
-		out << "\n";
+		out << std::endl;
 	}
 
 	void evolve_all() {
 		population = 0;
 
-		std::vector<T> temp_board;
+		std::vector<T> temp_board = board;
+
+		std::cerr << "board" << std::endl;
+		print(std::cerr);
 
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < width; y++) {
@@ -172,16 +178,32 @@ public:
 				neighbors.push_back(at(x-1, y+1));		//bottom-left
 				neighbors.push_back(at(x-1, y-1));		//top-left
 
+				std::cerr << x << " " << y << " evolve " << cell;
+
 				T new_cell = cell + neighbors;
-				/*
-				if(new_cell.is_alive().acell)
+
+				std::cerr << " to " << new_cell << std::endl;
+				
+				if (new_cell.is_alive())
 					population++;
-				*/
-				temp_board.push_back(new_cell);
+				
+				temp_board.at((x + 1) * (width + 2) + y + 1) = new_cell;
 			}
 		}
 
-		board.swap(temp_board);
+		std::cerr << "temp_board" << std::endl;
+
+		for (int x = 1; x < height + 1; x++) {
+			for (int y = 1; y < width + 1; y++) {
+				T c = temp_board[x * (width + 2) + y];
+
+				std::cerr << c;
+			}
+			std::cerr << "\n";
+		}
+		std::cerr << "\n";
+
+		board = temp_board;
 		generation++;
 
 	}

@@ -583,8 +583,20 @@ TEST(LifeFixture, life_evolve_all1) {
 
 	ostringstream out;
 	l.print(out);
-	ASSERT_EQ(out.str(), "...\n***\n...\n\n");
+	ASSERT_EQ(out.str(), "Generation = 1, Population = 3.\n...\n***\n...\n\n");
 }
+
+/*TEST(LifeFixture, life_evolve_all2) {
+	istringstream in(".*.\n.*.\n.*.\n\n");
+
+	Life<Cell> l(in);
+
+	l.evolve_all();
+
+	ostringstream out;
+	l.print(out);
+	ASSERT_EQ(out.str(), "Generation = 1, Population = 3.\n...\n***\n...\n\n");
+}*/
 
 
 /*

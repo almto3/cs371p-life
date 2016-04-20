@@ -203,3 +203,7 @@ istream& operator>>(istream& in, Cell& c) {
 
 	return in;
 }
+
+bool Cell::is_alive() const {
+	return acell->is_alive();
+}
