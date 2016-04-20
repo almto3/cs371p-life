@@ -11,6 +11,8 @@
 #include <cassert>   // assert
 #include <iostream>  // cout, endl
 
+#include "Life.h"
+
 // ----
 // main
 // ----
@@ -27,6 +29,12 @@ int main () {
     Simulate 12 evolutions.
     Print every grid (i.e. 0, 1, 2, 3, ... 12)
     */
+    Life<ConwayCell> l1(cin);
+    l1.print(cout);
+    for (int i = 0; i < 12; i++) {
+        l1.evolve_all();
+        l1.print(cout);
+    }
 
     // ----------------------
     // Life<ConwayCell> 20x29

@@ -165,9 +165,6 @@ public:
 
 		std::vector<T> temp_board = board;
 
-		std::cerr << "temp_board" << std::endl;
-		print(std::cerr);
-
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < width; y++) {
 				T cell = at(x, y);
@@ -182,11 +179,7 @@ public:
 				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 2));		// bottom-left
 				neighbors.push_back(temp_board.at((x) * (width + 2) + y));			// top-left
 
-				std::cerr << x << " " << y << " evolve " << cell;
-
 				T new_cell = cell + neighbors;
-
-				std::cerr << " to " << new_cell << std::endl;
 				
 				if (new_cell.is_alive())
 					population++;
@@ -197,9 +190,6 @@ public:
 		}
 
 		generation++;
-
-		std::cerr << "board" << std::endl;
-		print(std::cerr);
 	}
 
 	T& at(int x, int y) {
