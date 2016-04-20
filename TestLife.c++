@@ -408,7 +408,7 @@ TEST_P(CellEvolutionFixture, cell_evolve) {
 TEST(LifeFixture, life_construct1) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<ConwayCell> l(in);
+	Life<ConwayCell> l(in, 4, 3);
 
 	EXPECT_EQ(l.width, 3);
 	EXPECT_EQ(l.height, 4);
@@ -454,7 +454,7 @@ TEST(LifeFixture, life_construct1) {
 TEST(LifeFixture, life_construct2) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 4, 3);
 
 	EXPECT_EQ(l.width, 3);
 	EXPECT_EQ(l.height, 4);
@@ -500,7 +500,7 @@ TEST(LifeFixture, life_construct2) {
 TEST(LifeFixture, life_construct3) {
 	istringstream in("-1-\n0+3\n---\n45-\n\n");
 
-	Life<FredkinCell> l(in);
+	Life<FredkinCell> l(in, 4, 3);
 
 	EXPECT_EQ(l.width, 3);
 	EXPECT_EQ(l.height, 4);
@@ -546,7 +546,7 @@ TEST(LifeFixture, life_construct3) {
 TEST(LifeFixture, life_at1) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<ConwayCell> l(in);
+	Life<ConwayCell> l(in, 4, 3);
 
 	ConwayCell& c1 = l.at(0, 0);
 	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
@@ -557,12 +557,15 @@ TEST(LifeFixture, life_at1) {
 	ConwayCell& c3 = l.at(2, 0);
 	ASSERT_EQ(c3.is_alive(), false); ASSERT_EQ(c3.is_border(), false);
 
+	ConwayCell& c4 = l.at(3, 0);
+	ASSERT_EQ(c4.is_alive(), true); ASSERT_EQ(c4.is_border(), false);
+
 }
 
 TEST(LifeFixture, life_at2) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 4, 3);
 
 	Cell& c1 = l.at(0, 0);
 	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
@@ -572,12 +575,82 @@ TEST(LifeFixture, life_at2) {
 
 	Cell& c3 = l.at(2, 0);
 	ASSERT_EQ(c3.acell->is_alive(), false); ASSERT_EQ(c3.acell->is_border(), false);
+
+	Cell& c4 = l.at(3, 0);
+	ASSERT_EQ(c4.acell->is_alive(), true); ASSERT_EQ(c4.acell->is_border(), false);
+}
+
+TEST(LifeFixture, life_at3) {
+	istringstream in("---\n-1-\n---\n+--\n\n");
+
+	Life<FredkinCell> l(in, 4, 3);
+
+	FredkinCell& c1 = l.at(0, 0);
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	FredkinCell& c2 = l.at(1, 1);
+	ASSERT_EQ(c2.is_alive(), true); ASSERT_EQ(c2.is_border(), false);
+
+	FredkinCell& c3 = l.at(2, 0);
+	ASSERT_EQ(c3.is_alive(), false); ASSERT_EQ(c3.is_border(), false);
+
+	FredkinCell& c4 = l.at(3, 0);
+	ASSERT_EQ(c4.is_alive(), true); ASSERT_EQ(c4.is_border(), false);
+}
+
+TEST(LifeFixture, life_const_at1) {
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<ConwayCell> l(in, 4, 3);
+
+	const ConwayCell& c1 = l.at(0, 0);
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	const ConwayCell& c2 = l.at(1, 1);
+	ASSERT_EQ(c2.is_alive(), true); ASSERT_EQ(c2.is_border(), false);
+
+	const ConwayCell& c3 = l.at(2, 0);
+	ASSERT_EQ(c3.is_alive(), false); ASSERT_EQ(c3.is_border(), false);
+
+}
+
+TEST(LifeFixture, life_const_at2) {
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<Cell> l(in, 4, 3);
+
+	const Cell& c1 = l.at(0, 0);
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+
+	const Cell& c2 = l.at(1, 1);
+	ASSERT_EQ(c2.acell->is_alive(), true); ASSERT_EQ(c2.acell->is_border(), false);
+
+	const Cell& c3 = l.at(2, 0);
+	ASSERT_EQ(c3.acell->is_alive(), false); ASSERT_EQ(c3.acell->is_border(), false);
+}
+
+TEST(LifeFixture, life_const_at3) {
+	istringstream in("---\n-1-\n---\n+--\n\n");
+
+	Life<FredkinCell> l(in, 4, 3);
+
+	const FredkinCell& c1 = l.at(0, 0);
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	const FredkinCell& c2 = l.at(1, 1);
+	ASSERT_EQ(c2.is_alive(), true); ASSERT_EQ(c2.is_border(), false);
+
+	const FredkinCell& c3 = l.at(2, 0);
+	ASSERT_EQ(c3.is_alive(), false); ASSERT_EQ(c3.is_border(), false);
+
+	const FredkinCell& c4 = l.at(3, 0);
+	ASSERT_EQ(c4.is_alive(), true); ASSERT_EQ(c4.is_border(), false);
 }
 
 TEST(LifeFixture, life_evolve_all1) {
 	istringstream in(".*.\n.*.\n.*.\n\n");
 
-	Life<ConwayCell> l(in);
+	Life<ConwayCell> l(in, 3, 3);
 
 	l.evolve_all();
 
@@ -589,7 +662,7 @@ TEST(LifeFixture, life_evolve_all1) {
 TEST(LifeFixture, life_evolve_all2) {
 	istringstream in("---\n-1-\n---\n\n");
 
-	Life<FredkinCell> l(in);
+	Life<FredkinCell> l(in, 3, 3);
 
 	l.evolve_all();
 
@@ -601,7 +674,7 @@ TEST(LifeFixture, life_evolve_all2) {
 TEST(LifeFixture, life_evolve_all3) {
 	istringstream in(".*.\n.*.\n.*.\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 
 	l.evolve_all();
 
@@ -615,7 +688,7 @@ TEST(LifeFixture, life_evolve_all3) {
 TEST(LifeFixture, life_print1) {
 	istringstream in(".*.\n.*.\n.*.\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 	ostringstream s;
 	l.print(s);
 	ASSERT_EQ(s.str(), "Generation = 0, Population = 3.\n.*.\n.*.\n.*.\n\n");
@@ -624,7 +697,7 @@ TEST(LifeFixture, life_print1) {
 TEST(LifeFixture, life_print2) {
 	istringstream in("-1-\n2-4\n+--\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 	ostringstream s;
 	l.print(s);
 	ASSERT_EQ(s.str(), "Generation = 0, Population = 4.\n-1-\n2-4\n+--\n\n");
@@ -633,7 +706,7 @@ TEST(LifeFixture, life_print2) {
 TEST(LifeFixture, life_print3) {
 	istringstream in("-1.\n*-4\n+--\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 	ostringstream s;
 	l.print(s);
 	ASSERT_EQ(s.str(), "Generation = 0, Population = 4.\n-1.\n*-4\n+--\n\n");
@@ -642,13 +715,126 @@ TEST(LifeFixture, life_print3) {
 /*
 TEST(LifeFixture, life_begin1) {
 
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<ConwayCell> l(in, 4, 3);
+
+	ConwayCell* c1 = l.begin();
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), true); ASSERT_EQ(c1.is_border(), false);
+}
+
+TEST(LifeFixture, life_begin2) {
+
+	istringstream in("2..\n.*.\n...\n*..\n\n");
+
+	Life<Cell> l(in, 4, 3);
+
+	Cell* c1 = l.begin();
+	ASSERT_EQ(c1.acell->is_alive(), true); ASSERT_EQ(c1.acell->is_border(), false);
+
+	++c1;
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+	
+	++c1;
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+	
+	++c1;
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+}
+
+TEST(LifeFixture, life_begin3) {
+
+	istringstream in("2--\n-3-\n---\n+--\n\n");
+
+	Life<FredkinCell> l(in, 4, 3);
+
+	FredkinCell* c1 = l.begin();
+	ASSERT_EQ(c1.is_alive(), true); ASSERT_EQ(c1.is_border(), false);
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false)
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false)
+
+	++c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false)
 }
 
 TEST(LifeFixture, life_end1) {
 
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	Life<ConwayCell> l(in, 4, 3);
+
+	ConwayCell* c1 = l.end();
+	--c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	--c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	--c1;
+	ASSERT_EQ(c1.is_alive(), true); ASSERT_EQ(c1.is_border(), false);
+
+	--c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	--c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
 }
 
-TEST(LifeFixture, life_at1) {
+TEST(LifeFixture, life_end2) {
 
+	istringstream in("2..\n.*.\n...\n*..\n\n");
+
+	Life<Cell> l(in, 4, 3);
+
+	Cell* c1 = l.begin();
+	--c1;
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+
+	--c1;;
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
+	
+	--c1;
+	ASSERT_EQ(c1.acell->is_alive(), true); ASSERT_EQ(c1.acell->is_border(), false);
+	
+	--c1;
+	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
 }
+
+TEST(LifeFixture, life_end3) {
+
+	istringstream in("2--\n-3-\n---\n+--\n\n");
+
+	Life<FredkinCell> l(in, 4, 3);
+
+	FredkinCell* c1 = l.begin();
+	--c1;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
+
+	--c1;;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false)
+
+	--c1;;
+	ASSERT_EQ(c1.is_alive(), true); ASSERT_EQ(c1.is_border(), false)
+
+	--c1;;
+	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false)
+}
+
+
 */
