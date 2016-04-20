@@ -126,6 +126,10 @@ public:
 
 			// Add the actual cell
 			T new_cell = T((char) input);
+
+			if (new_cell.is_alive())
+				population++;
+
 			temp_board.push_back(new_cell);
 
 			last_char_was_newline = false;

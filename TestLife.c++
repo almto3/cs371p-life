@@ -586,17 +586,17 @@ TEST(LifeFixture, life_evolve_all1) {
 	ASSERT_EQ(out.str(), "Generation = 1, Population = 3.\n...\n***\n...\n\n");
 }
 
-/*TEST(LifeFixture, life_evolve_all2) {
-	istringstream in(".*.\n.*.\n.*.\n\n");
+TEST(LifeFixture, life_evolve_all2) {
+	istringstream in("---\n-1-\n---\n\n");
 
-	Life<Cell> l(in);
+	Life<FredkinCell> l(in);
 
 	l.evolve_all();
 
 	ostringstream out;
 	l.print(out);
-	ASSERT_EQ(out.str(), "Generation = 1, Population = 3.\n...\n***\n...\n\n");
-}*/
+	ASSERT_EQ(out.str(), "Generation = 1, Population = 4.\n-0-\n0-0\n-0-\n\n");
+}
 
 
 /*
