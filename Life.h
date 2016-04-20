@@ -9,7 +9,20 @@
 class Cell;
 
 class AbstractCell {
+	/**
+	 * print a cell's symbol
+	 * @param out the ostream to write to
+	 * @param c the cell we want to print
+	 * @return the ostream
+	 */
 	friend std::ostream& operator<<(std::ostream& out, const AbstractCell& c);
+
+	/**
+	 * read a symbol to a cell
+	 * @param out the ostream to write to
+	 * @param c the cell we want to print
+	 * @return the ostream
+	 */
 	friend std::istream& operator>>(std::istream& in, AbstractCell& c);
 
 protected:
@@ -21,39 +34,65 @@ public:
 	  									4 X 2
 	  									7 3 6
 	*/
-	virtual Cell evolve(std::vector<Cell> neighbors) const = 0;
+	virtual Cell evolve(const std::vector<Cell> neighbors) const = 0;
+
+	/**
+	 * print this cell's symbol
+	 * @param out the ostream to write to
+	 * @return the ostream
+	 */
 	virtual std::ostream& print(std::ostream& out) const = 0;
+
+	/**
+	 * clone this cell
+	 * @return a pointer to a clone of the cell
+	 */
 	virtual AbstractCell* clone() const = 0;
 
 	virtual ~AbstractCell() {}
 
 	AbstractCell(bool border_ = false) : border(border_) {}
 
+	/**
+	 * is the cell alive or dead?
+	 * @return true if alive, false if dead
+	 */
 	virtual const bool is_alive() const { return alive; }
+
+	/**
+	 * is the cell a border?
+	 * @return true if border, false if not a border
+	 */
 	virtual const bool is_border() const { return border; }
 };
 
 class ConwayCell : public AbstractCell {
-	friend ConwayCell operator+(ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
+	/**
+	 * evolve this cell
+	 * @param old_cell the cell to evolve
+	 * @param neighbors a vector of neighbors, in the order up, right, down, left, up-right, down-right, down-left, up-left
+	 * @return a new cell that's evolved from old_cell and neighbors
+	 */
+	friend ConwayCell operator+(const ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
 
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(std::vector<Cell> neighbors) const;
+	Cell evolve(const std::vector<Cell> neighbors) const;
 
 	ConwayCell* clone() const;
 };
 
 class FredkinCell : public AbstractCell {
-	friend FredkinCell operator+(FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
+	friend FredkinCell operator+(const FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
 
 public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
 	FredkinCell(const char& input);
 	FredkinCell(int age_, bool alive_);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(std::vector<Cell> neighbors) const;
+	Cell evolve(const std::vector<Cell> neighbors) const;
 
 	FredkinCell* clone() const;
 
@@ -130,11 +169,11 @@ public:
 		assert(x == height);
 	}
 
-	void print(std::ostream& out) {
+	void print(std::ostream& out) const {
 		out << "Generation = " << generation << ", Population = " << population << "." << std::endl;
 		for (int x = 1; x < height + 1; x++) {
 			for (int y = 1; y < width + 1; y++) {
-				T c = board[x * (width + 2) + y];
+				const T c = board[x * (width + 2) + y];
 
 				out << c;
 			}
