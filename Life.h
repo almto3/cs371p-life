@@ -165,7 +165,7 @@ public:
 
 		std::vector<T> temp_board = board;
 
-		std::cerr << "board" << std::endl;
+		std::cerr << "temp_board" << std::endl;
 		print(std::cerr);
 
 		for (int x = 0; x < height; x++) {
@@ -173,14 +173,14 @@ public:
 				T cell = at(x, y);
 				std::vector<T> neighbors;
 
-				neighbors.push_back(at(x, y-1));		//up
-				neighbors.push_back(at(x+1, y));		//right
-				neighbors.push_back(at(x, y+1));		//down
-				neighbors.push_back(at(x-1, y));		//left
-				neighbors.push_back(at(x+1, y-1));		//top-right
-				neighbors.push_back(at(x+1, y+1));		//bottom-right
-				neighbors.push_back(at(x-1, y+1));		//bottom-left
-				neighbors.push_back(at(x-1, y-1));		//top-left
+				neighbors.push_back(temp_board.at((x + 1) * (width + 2) + y));		// up
+				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y + 1));	// right
+				neighbors.push_back(temp_board.at((x + 1) * (width + 2) + y + 2));	// down
+				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 1));		// left
+				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y));		// top-right
+				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y + 2));	// bottom-right
+				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 2));		// bottom-left
+				neighbors.push_back(temp_board.at((x) * (width + 2) + y));			// top-left
 
 				std::cerr << x << " " << y << " evolve " << cell;
 
@@ -191,25 +191,15 @@ public:
 				if (new_cell.is_alive())
 					population++;
 				
-				temp_board.at((x + 1) * (width + 2) + y + 1) = new_cell;
+				at(x, y).~T();		// deallocate old cell to avoid memory leaks
+				at(x, y) = new_cell;
 			}
 		}
 
-		std::cerr << "temp_board" << std::endl;
-
-		for (int x = 1; x < height + 1; x++) {
-			for (int y = 1; y < width + 1; y++) {
-				T c = temp_board[x * (width + 2) + y];
-
-				std::cerr << c;
-			}
-			std::cerr << "\n";
-		}
-		std::cerr << "\n";
-
-		board = temp_board;
 		generation++;
 
+		std::cerr << "board" << std::endl;
+		print(std::cerr);
 	}
 
 	T& at(int x, int y) {
