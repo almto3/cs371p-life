@@ -615,7 +615,7 @@ TEST(LifeFixture, life_evolve_all3) {
 TEST(LifeFixture, life_print1) {
 	istringstream in(".*.\n.*.\n.*.\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 	ostringstream s;
 	l.print(s);
 	ASSERT_EQ(s.str(), "Generation = 0, Population = 3.\n.*.\n.*.\n.*.\n\n");
@@ -624,7 +624,7 @@ TEST(LifeFixture, life_print1) {
 TEST(LifeFixture, life_print2) {
 	istringstream in("-1-\n2-4\n+--\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 	ostringstream s;
 	l.print(s);
 	ASSERT_EQ(s.str(), "Generation = 0, Population = 4.\n-1-\n2-4\n+--\n\n");
@@ -633,7 +633,7 @@ TEST(LifeFixture, life_print2) {
 TEST(LifeFixture, life_print3) {
 	istringstream in("-1.\n*-4\n+--\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 	ostringstream s;
 	l.print(s);
 	ASSERT_EQ(s.str(), "Generation = 0, Population = 4.\n-1.\n*-4\n+--\n\n");
