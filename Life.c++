@@ -187,7 +187,7 @@ Cell operator+(Cell old_cell, const vector<Cell> neighbors) {
 	FredkinCell *fc;
 	if ((fc = dynamic_cast<FredkinCell *>(new_cell.acell)) != nullptr)
 		if (fc->age() == 2)
-			new_cell = Cell(ConwayCell('*'));
+			return Cell(ConwayCell('*'));
 
 	return new_cell;
 }

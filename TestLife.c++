@@ -408,7 +408,7 @@ TEST_P(CellEvolutionFixture, cell_evolve) {
 TEST(LifeFixture, life_construct1) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<ConwayCell> l(in);
+	Life<ConwayCell> l(in, 4, 3);
 
 	EXPECT_EQ(l.width, 3);
 	EXPECT_EQ(l.height, 4);
@@ -454,7 +454,7 @@ TEST(LifeFixture, life_construct1) {
 TEST(LifeFixture, life_construct2) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 4, 3);
 
 	EXPECT_EQ(l.width, 3);
 	EXPECT_EQ(l.height, 4);
@@ -500,7 +500,7 @@ TEST(LifeFixture, life_construct2) {
 TEST(LifeFixture, life_construct3) {
 	istringstream in("-1-\n0+3\n---\n45-\n\n");
 
-	Life<FredkinCell> l(in);
+	Life<FredkinCell> l(in, 4, 3);
 
 	EXPECT_EQ(l.width, 3);
 	EXPECT_EQ(l.height, 4);
@@ -546,7 +546,7 @@ TEST(LifeFixture, life_construct3) {
 TEST(LifeFixture, life_at1) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<ConwayCell> l(in);
+	Life<ConwayCell> l(in, 4, 3);
 
 	ConwayCell& c1 = l.at(0, 0);
 	ASSERT_EQ(c1.is_alive(), false); ASSERT_EQ(c1.is_border(), false);
@@ -562,7 +562,7 @@ TEST(LifeFixture, life_at1) {
 TEST(LifeFixture, life_at2) {
 	istringstream in("...\n.*.\n...\n*..\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 4, 3);
 
 	Cell& c1 = l.at(0, 0);
 	ASSERT_EQ(c1.acell->is_alive(), false); ASSERT_EQ(c1.acell->is_border(), false);
@@ -577,7 +577,7 @@ TEST(LifeFixture, life_at2) {
 TEST(LifeFixture, life_evolve_all1) {
 	istringstream in(".*.\n.*.\n.*.\n\n");
 
-	Life<ConwayCell> l(in);
+	Life<ConwayCell> l(in, 3, 3);
 
 	l.evolve_all();
 
@@ -589,7 +589,7 @@ TEST(LifeFixture, life_evolve_all1) {
 TEST(LifeFixture, life_evolve_all2) {
 	istringstream in("---\n-1-\n---\n\n");
 
-	Life<FredkinCell> l(in);
+	Life<FredkinCell> l(in, 3, 3);
 
 	l.evolve_all();
 
@@ -601,7 +601,7 @@ TEST(LifeFixture, life_evolve_all2) {
 TEST(LifeFixture, life_evolve_all3) {
 	istringstream in(".*.\n.*.\n.*.\n\n");
 
-	Life<Cell> l(in);
+	Life<Cell> l(in, 3, 3);
 
 	l.evolve_all();
 
