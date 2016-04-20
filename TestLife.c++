@@ -574,6 +574,17 @@ TEST(LifeFixture, life_at2) {
 	ASSERT_EQ(c3.acell->is_alive(), false); ASSERT_EQ(c3.acell->is_border(), false);
 }
 
+TEST(LifeFixture, life_evolve_all1) {
+	istringstream in(".*.\n.*.\n.*.\n\n");
+
+	Life<ConwayCell> l(in);
+
+	l.evolve_all();
+
+	ostringstream out;
+	l.print(out);
+	ASSERT_EQ(out.str(), "...\n***\n...\n\n");
+}
 
 
 /*

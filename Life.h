@@ -25,6 +25,8 @@ public:
 	virtual std::ostream& print(std::ostream& out) const = 0;
 	virtual AbstractCell* clone() const = 0;
 
+	virtual ~AbstractCell() {}
+
 	AbstractCell(bool border_ = false) : border(border_) {}
 
 	virtual const bool is_alive() const { return alive; }
@@ -32,7 +34,7 @@ public:
 };
 
 class ConwayCell : public AbstractCell {
-	friend ConwayCell operator+(ConwayCell old_cell, std::vector<ConwayCell> neighbors);
+	friend ConwayCell operator+(ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
 
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
@@ -44,7 +46,7 @@ public:
 };
 
 class FredkinCell : public AbstractCell {
-	friend FredkinCell operator+(FredkinCell old_cell, std::vector<FredkinCell> neighbors);
+	friend FredkinCell operator+(FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
 
 public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
@@ -67,7 +69,7 @@ protected:
 };
 
 class Cell {
-	friend Cell operator+(Cell old_cell, std::vector<Cell> neigbors);
+	friend Cell operator+(Cell old_cell, const std::vector<Cell> neigbors);
 	friend std::ostream& operator<<(std::ostream& out, const Cell c);
 	friend std::istream& operator>>(std::istream& in, Cell& c);
 
@@ -75,6 +77,7 @@ public:
 	AbstractCell *acell;
 
 	Cell(AbstractCell* c = nullptr) : acell(c) {}
+	Cell(const AbstractCell& c) : acell(c.clone()) {}
 	Cell(bool border_) : acell(new ConwayCell(border_)) {}
 	Cell(const char& c);
 	Cell(const Cell& c);
@@ -147,6 +150,7 @@ public:
 			}
 			out << "\n";
 		}
+		out << "\n";
 	}
 
 	void evolve_all() {
@@ -169,14 +173,17 @@ public:
 				neighbors.push_back(at(x-1, y-1));		//top-left
 
 				T new_cell = cell + neighbors;
-
+				/*
+				if(new_cell.is_alive().acell)
+					population++;
+				*/
 				temp_board.push_back(new_cell);
 			}
 		}
 
 		board.swap(temp_board);
+		generation++;
 
-		//  if evolved cell is alive, increment population
 	}
 
 	T& at(int x, int y) {
