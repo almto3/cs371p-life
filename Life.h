@@ -9,20 +9,7 @@
 class Cell;
 
 class AbstractCell {
-	/**
-	 * print a cell's symbol
-	 * @param out the ostream to write to
-	 * @param c the cell we want to print
-	 * @return the ostream
-	 */
 	friend std::ostream& operator<<(std::ostream& out, const AbstractCell& c);
-
-	/**
-	 * read a symbol to a cell
-	 * @param out the ostream to write to
-	 * @param c the cell we want to print
-	 * @return the ostream
-	 */
 	friend std::istream& operator>>(std::istream& in, AbstractCell& c);
 
 protected:
@@ -34,65 +21,39 @@ public:
 	  									4 X 2
 	  									7 3 6
 	*/
-	virtual Cell evolve(const std::vector<Cell> neighbors) const = 0;
-
-	/**
-	 * print this cell's symbol
-	 * @param out the ostream to write to
-	 * @return the ostream
-	 */
+	virtual Cell evolve(std::vector<Cell> neighbors) const = 0;
 	virtual std::ostream& print(std::ostream& out) const = 0;
-
-	/**
-	 * clone this cell
-	 * @return a pointer to a clone of the cell
-	 */
 	virtual AbstractCell* clone() const = 0;
 
 	virtual ~AbstractCell() {}
 
 	AbstractCell(bool border_ = false) : border(border_) {}
 
-	/**
-	 * is the cell alive or dead?
-	 * @return true if alive, false if dead
-	 */
 	virtual const bool is_alive() const { return alive; }
-
-	/**
-	 * is the cell a border?
-	 * @return true if border, false if not a border
-	 */
 	virtual const bool is_border() const { return border; }
 };
 
 class ConwayCell : public AbstractCell {
-	/**
-	 * evolve this cell
-	 * @param old_cell the cell to evolve
-	 * @param neighbors a vector of neighbors, in the order up, right, down, left, up-right, down-right, down-left, up-left
-	 * @return a new cell that's evolved from old_cell and neighbors
-	 */
-	friend ConwayCell operator+(const ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
+	friend ConwayCell operator+(ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
 
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(const std::vector<Cell> neighbors) const;
+	Cell evolve(std::vector<Cell> neighbors) const;
 
 	ConwayCell* clone() const;
 };
 
 class FredkinCell : public AbstractCell {
-	friend FredkinCell operator+(const FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
+	friend FredkinCell operator+(FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
 
 public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
 	FredkinCell(const char& input);
 	FredkinCell(int age_, bool alive_);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(const std::vector<Cell> neighbors) const;
+	Cell evolve(std::vector<Cell> neighbors) const;
 
 	FredkinCell* clone() const;
 
@@ -161,6 +122,7 @@ public:
 			if (new_cell.is_alive())
 				population++;
 
+			at(x, y).~T();	// deallocate
 			at(x, y) = new_cell;
 
 			y++;
@@ -169,11 +131,11 @@ public:
 		assert(x == height);
 	}
 
-	void print(std::ostream& out) const {
+	void print(std::ostream& out) {
 		out << "Generation = " << generation << ", Population = " << population << "." << std::endl;
 		for (int x = 1; x < height + 1; x++) {
 			for (int y = 1; y < width + 1; y++) {
-				const T c = board[x * (width + 2) + y];
+				T c = board[x * (width + 2) + y];
 
 				out << c;
 			}
@@ -221,8 +183,48 @@ public:
 		return board.at((x + 1) * (width + 2) + y + 1);
 	}
 
-	T* begin();
-	T* end();
+	template <class T2>
+	class iterator {
+	public:
+		iterator(Life& l, int x_, int y_) : life(l), x(x_), y(y_) {}
+
+		T2& operator*() const {
+			return life.at(x, y);
+		}
+		iterator<T2>& operator++() {
+			y++;
+			if (y >= life.width) {
+				x++;
+				y = 0;
+			}
+			return *this;
+		}
+		iterator<T2>& operator--() {
+			y--;
+			if (y < 0) {
+				x--;
+				y = life.width - 1;
+			}
+			return *this;
+		}
+		bool operator==(const iterator<T2>& rhs) const {
+			return x == rhs.x && y == rhs.y && &life == &rhs.life;
+		}
+		bool operator!=(const iterator<T2>& rhs) const {
+			return !(*this == rhs);
+		}
+	private:
+		Life<T2>& life;
+		int x;
+		int y;
+	};
+
+	iterator<T> begin() {
+		return iterator<T>(*this, 0, 0);
+	}
+	iterator<T> end() {
+		return iterator<T>(*this, height - 1, width);
+	}
 private:
 	int height;
 	int width;
