@@ -861,13 +861,116 @@ TEST(LifeFixture, life_end3) {
 
 	--c1;;
 	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+}
+
+TEST(LifeFixture, life_const_begin1) {
+
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	const Life<ConwayCell> l(in, 4, 3);
+
+	Life<ConwayCell>::const_iterator<ConwayCell> c1 = l.begin();
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), true); ASSERT_EQ((*c1).is_border(), false);
+}
+
+TEST(LifeFixture, life_const_begin2) {
+
+	istringstream in("2..\n.*.\n...\n*..\n\n");
+
+	const Life<Cell> l(in, 4, 3);
+
+	Life<Cell>::const_iterator<Cell> c1 = l.begin();
+	ASSERT_EQ((*c1).acell->is_alive(), true); ASSERT_EQ((*c1).acell->is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
+	
+	++c1;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
+	
+	++c1;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
+}
+
+TEST(LifeFixture, life_const_begin3) {
+
+	istringstream in("2--\n-3-\n---\n+--\n\n");
+
+	const Life<FredkinCell> l(in, 4, 3);
+
+	Life<FredkinCell>::const_iterator<FredkinCell> c1 = l.begin();
+	ASSERT_EQ((*c1).is_alive(), true); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	++c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+}
+
+TEST(LifeFixture, life_const_end1) {
+
+	istringstream in("...\n.*.\n...\n*..\n\n");
+
+	const Life<ConwayCell> l(in, 4, 3);
+
+	Life<ConwayCell>::const_iterator<ConwayCell> c1 = l.end();
+	--c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;
+	ASSERT_EQ((*c1).is_alive(), true); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+}
+
+TEST(LifeFixture, life_const_end2) {
+
+	istringstream in("2..\n.*.\n...\n*..\n\n");
+
+	const Life<Cell> l(in, 4, 3);
+
+	Life<Cell>::const_iterator<Cell> c1 = l.end();
+	--c1;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
+
+	--c1;;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
+	
+	--c1;
+	ASSERT_EQ((*c1).acell->is_alive(), true); ASSERT_EQ((*c1).acell->is_border(), false);
+	
+	--c1;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
 } 
-/*
+
 TEST(LifeFixture, life_const_end3) {
 
 	istringstream in("2--\n-3-\n---\n+--\n\n");
 
-	Life<FredkinCell> l(in, 4, 3);
+	const Life<FredkinCell> l(in, 4, 3);
 
 	Life<FredkinCell>::const_iterator<FredkinCell> c1 = l.end();
 	--c1;
@@ -882,4 +985,3 @@ TEST(LifeFixture, life_const_end3) {
 	--c1;;
 	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
 }
-*/

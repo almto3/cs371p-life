@@ -232,7 +232,7 @@ public:
 
 	/**
 	 * constructor
-	 * @param const c the cell to be encapsulated, assigned to variable acell
+	 * @param c the cell to be encapsulated, assigned to variable acell
 	 */
 	Cell(const AbstractCell& c) : acell(c.clone()) {}
 
@@ -421,6 +421,11 @@ public:
 		T2& operator*() const {
 			return life.at(x, y);
 		}
+
+		/**
+		 * operator ++ will override the ++ operator for iterator and will iterate to the next element 
+	 	 * @return a reference to the iterator pointing to the next element
+		 */	
 		iterator<T2>& operator++() {
 			y++;
 			if (y >= life.width) {
@@ -429,6 +434,11 @@ public:
 			}
 			return *this;
 		}
+
+		/**
+		 * operator -- will override the -- operator for iterator and will iterate to the previous element 
+	 	 * @return a reference to the iterator pointing to the previous element
+		 */	
 		iterator<T2>& operator--() {
 			y--;
 			if (y < 0) {
@@ -437,26 +447,55 @@ public:
 			}
 			return *this;
 		}
+
+		/**
+		 * operator == will override the == operator for iterator
+	 	 * @return a bool with the value of the comparison
+		 */	
 		bool operator==(const iterator<T2>& rhs) const {
 			return x == rhs.x && y == rhs.y && &life == &rhs.life;
 		}
+
+		/**
+		 * operator != will override the != operator for iterator
+	 	 * @return a bool with the value of the comparison
+		 */	
 		bool operator!=(const iterator<T2>& rhs) const {
 			return !(*this == rhs);
 		}
 	private:
-		Life<T2>& life;
-		int x;
-		int y;
+		Life<T2>& life;		//the board that will be iterated over
+		int x;				//current x
+		int y;				//current y
 	};
 
+	// 	-------------------------------------------------------
+	//	Nested Class const_iterator, it will iterate over board
+	//	-------------------------------------------------------
 	template <class T2>
 	class const_iterator {
 	public:
+
+		/**
+		 * constructor
+	 	 * @param l is the life instance to iterate over
+	 	 * @param x the horizontal variable (without borders as they are hidden from the user)
+	 	 * @param y the vertical variable (without borders as they are hidden from the user)
+		 */	
 		const_iterator(const Life& l, int x_, int y_) : life(l), x(x_), y(y_) {}
 
+		/**
+		 * operator * will override the * operator for const_iterator
+	 	 * @return a reference to the cell this iterator points to
+		 */	
 		const T2& operator*() const {
 			return life.at(x, y);
 		}
+
+		/**
+		 * operator ++ will override the ++ operator for const_iterator and will iterate to the next element 
+	 	 * @return a reference to the iterator pointing to the next element
+		 */	
 		const_iterator<T2>& operator++() {
 			y++;
 			if (y >= life.width) {
@@ -465,6 +504,11 @@ public:
 			}
 			return *this;
 		}
+
+		/**
+		 * operator -- will override the -- operator for const_iterator and will iterate to the previous element 
+	 	 * @return a reference to the iterator pointing to the previous element
+		 */	
 		const_iterator<T2>& operator--() {
 			y--;
 			if (y < 0) {
@@ -473,37 +517,66 @@ public:
 			}
 			return *this;
 		}
+
+		/**
+		 * operator == will override the == operator for const_iterator
+	 	 * @return a bool with the value of the comparison
+		 */
 		bool operator==(const const_iterator<T2>& rhs) const {
 			return x == rhs.x && y == rhs.y && &life == &rhs.life;
 		}
+
+		/**
+		 * operator != will override the != operator for const_iterator
+	 	 * @return a bool with the value of the comparison
+		 */	
 		bool operator!=(const const_iterator<T2>& rhs) const {
 			return !(*this == rhs);
 		}
 	private:
-		const Life<T2>& life;
-		int x;
-		int y;
+		const Life<T2>& life;		//the board that will be iterated over
+		int x;						//current x
+		int y;						//current y
 	};
 
+	/*
+	 * return the first element in board
+	 * @return the first element in board
+	 */
 	iterator<T> begin() {
 		return iterator<T>(*this, 0, 0);
 	}
+
+	/*
+	 * return the first element in board
+	 * @return the first element in board
+	 */
 	const_iterator<T> begin() const {
 		return const_iterator<T>(*this, 0, 0);
 	}
+
+	/*
+	 * return the last element in board
+	 * @return the last element in board
+	 */
 	iterator<T> end() {
 		return iterator<T>(*this, height - 1, width);
 	}
+
+	/*
+	 * return the last element in board
+	 * @return the last element in board
+	 */
 	const_iterator<T> end() const {
 		return const_iterator<T>(*this, height - 1, width);
 	}
 private:
-	int height;
-	int width;
-	std::vector<T> board;
+	int height;			//max height
+	int width;			//max width
+	std::vector<T> board;	//the board itself
 
-	int generation;
-	int population;
+	int generation;			//generation tracker
+	int population;			//population tracker
 
 	FRIEND_TEST(LifeFixture, life_construct1);
 	FRIEND_TEST(LifeFixture, life_construct2);
