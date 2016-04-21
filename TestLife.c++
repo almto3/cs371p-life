@@ -860,5 +860,25 @@ TEST(LifeFixture, life_end3) {
 
 	--c1;;
 	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
-}
+} 
+/*
+TEST(LifeFixture, life_const_end3) {
 
+	istringstream in("2--\n-3-\n---\n+--\n\n");
+
+	Life<FredkinCell> l(in, 4, 3);
+
+	Life<FredkinCell>::const_iterator<FredkinCell> c1 = l.end();
+	--c1;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;;
+	ASSERT_EQ((*c1).is_alive(), true); ASSERT_EQ((*c1).is_border(), false);
+
+	--c1;;
+	ASSERT_EQ((*c1).is_alive(), false); ASSERT_EQ((*c1).is_border(), false);
+}
+*/

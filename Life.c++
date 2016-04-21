@@ -160,15 +160,16 @@ const int FredkinCell::age() const {
 // Cell
 // ----
 
-Cell::Cell(const Cell& c) {
-	this->acell = c.acell->clone();
-}
 
 Cell::Cell(const char& c) {
 	if (c == '.' || c == '*')
 		this->acell = new ConwayCell(c);
 	else
 		this->acell = new FredkinCell(c);
+}
+
+Cell::Cell(const Cell& c) {
+	this->acell = c.acell->clone();
 }
 
 Cell::~Cell() {

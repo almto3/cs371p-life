@@ -24,7 +24,7 @@ int main () {
     // Life<ConwayCell> 21x13
     // ----------------------
 
-    cout << "*** Life<ConwayCell> 21x13 ***" << endl;
+    cout << "*** Life<ConwayCell> 21x13 ***\n" << endl;
     /*
     Simulate 12 evolutions.
     Print every grid (i.e. 0, 1, 2, 3, ... 12)
@@ -42,7 +42,7 @@ int main () {
     // Life<ConwayCell> 20x29
     // ----------------------
 
-    cout << "*** Life<ConwayCell> 20x29 ***" << endl;
+    cout << "*** Life<ConwayCell> 20x29 ***\n" << endl;
     /*
     Simulate 28 evolutions.
     Print every 4th grid (i.e. 0, 4, 8, ... 28)
@@ -61,7 +61,7 @@ int main () {
     // Life<ConwayCell> 109x69
     // -----------------------
 
-    cout << "*** Life<ConwayCell> 109x69 ***" << endl;
+    cout << "*** Life<ConwayCell> 109x69 ***\n" << endl;
     /*
     Simulate 283 evolutions.
     Print the first 10 grids (i.e. 0, 1, 2, ... 9).
@@ -85,7 +85,7 @@ int main () {
     // Life<FredkinCell> 20x20
     // -----------------------
 
-    cout << "*** Life<FredkinCell> 20x20 ***" << endl;
+    cout << "*** Life<FredkinCell> 20x20 ***\n" << endl;
     /*
     Simulate 5 evolutions.
     Print every grid (i.e. 0, 1, 2, ... 5)
@@ -103,13 +103,13 @@ int main () {
     // Life<Cell> 20x20
     // ----------------
 
-    cout << "*** Life<FredkinCell> 20x20 ***" << endl;
+    cout << "*** Life<Cell> 20x20 ***\n" << endl;
     /*
     Simulate 5 evolutions.
     Print every grid (i.e. 0, 1, 2, ... 5)
     */
     {
-        Life<FredkinCell> l5(cin, 20, 20);
+        Life<Cell> l5(cin, 20, 20);
         l5.print(cout);
         for (int i = 1; i <= 5; i++) {
             l5.evolve_all();
