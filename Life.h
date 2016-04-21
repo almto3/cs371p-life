@@ -85,6 +85,7 @@ public:
 	Cell& operator=(const Cell& rhs);
 
 	bool is_alive() const;
+	bool is_border() const;
 };
 
 template <class T>
@@ -152,16 +153,16 @@ public:
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < width; y++) {
 				T cell = at(x, y);
-				std::vector<T> neighbors;
+				std::vector<T> neighbors(8);
 
-				neighbors.push_back(temp_board.at((x + 1) * (width + 2) + y));		// up
-				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y + 1));	// right
-				neighbors.push_back(temp_board.at((x + 1) * (width + 2) + y + 2));	// down
-				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 1));		// left
-				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y));		// top-right
-				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y + 2));	// bottom-right
-				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 2));		// bottom-left
-				neighbors.push_back(temp_board.at((x) * (width + 2) + y));			// top-left
+				neighbors[0] = temp_board[(x + 1) * (width + 2) + y];		// up
+				neighbors[1] = temp_board[(x + 2) * (width + 2) + y + 1];	// right
+				neighbors[2] = temp_board[(x + 1) * (width + 2) + y + 2];	// down
+				neighbors[3] = temp_board[(x) * (width + 2) + y + 1];		// left
+				neighbors[4] = temp_board[(x + 2) * (width + 2) + y];		// top-right
+				neighbors[5] = temp_board[(x + 2) * (width + 2) + y + 2];	// bottom-right
+				neighbors[6] = temp_board[(x) * (width + 2) + y + 2];		// bottom-left
+				neighbors[7] = temp_board[(x) * (width + 2) + y];			// top-left
 
 				T new_cell = cell + neighbors;
 				

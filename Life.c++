@@ -34,16 +34,25 @@ ConwayCell::ConwayCell(const char& input) {
 }
 
 ConwayCell operator+(const ConwayCell old_cell, const vector<ConwayCell> neighbors) {
-	std::vector<Cell> new_neighbors;
-	for (ConwayCell c : neighbors) {
-		Cell nc = Cell(c);
-		new_neighbors.push_back(nc);
+	int live_neighbors = 0;
+
+	for (int i = 0; i < 8; i++) {
+		ConwayCell n = neighbors[i];
+		if (!n.border && n.alive)
+			live_neighbors++;
 	}
 
-	Cell evolved = old_cell.evolve(new_neighbors);
-	ConwayCell new_cell = *(static_cast<ConwayCell *>(evolved.acell));
-
-	return new_cell;
+	if (old_cell.is_alive()) {
+		if (live_neighbors < 2 || live_neighbors > 3)
+			return ConwayCell('.');
+		else
+			return ConwayCell('*');
+	} else { // dead
+		if (live_neighbors == 3)
+			return ConwayCell('*');
+		else
+			return ConwayCell('.');
+	}
 }
 
 
@@ -54,9 +63,11 @@ ConwayCell* ConwayCell::clone() const {
 Cell ConwayCell::evolve(const vector<Cell> neighbors) const {
 	int live_neighbors = 0;
 
-	for (Cell n : neighbors)
-		if (!(n.acell->*(&ConwayCell::border)) && n.acell->*(&ConwayCell::alive))
+	for (int i = 0; i < 8; i++) {
+		Cell n = neighbors[i];
+		if (!n.is_border() && n.is_alive())
 			live_neighbors++;
+	}
 
 	if (alive) {
 		if (live_neighbors < 2 || live_neighbors > 3)
@@ -96,16 +107,26 @@ FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 }
 
 FredkinCell operator+(const FredkinCell old_cell, const vector<FredkinCell> neighbors) {
-	std::vector<Cell> new_neighbors;
-	for (FredkinCell c : neighbors)
-		new_neighbors.push_back(Cell(c));
+	int live_neighbors = 0;
 
-	Cell evolved = old_cell.evolve(new_neighbors);
-	FredkinCell new_cell = *(static_cast<FredkinCell *>(evolved.acell));
+	for (int i = 0; i < 4; i++){
+		FredkinCell n = neighbors[i];
+		if (!n.border && n.alive)
+			live_neighbors++;
+	}
 
-	new_neighbors.clear();
-
-	return new_cell;
+	if (old_cell.is_alive()) {
+		if (live_neighbors == 0 || live_neighbors == 2 || live_neighbors == 4)
+			return FredkinCell(old_cell.age(), false);
+		else {
+			return FredkinCell(old_cell.age() + 1, true);
+		}
+	} else { // dead
+		if (live_neighbors == 3 || live_neighbors == 1)
+			return FredkinCell(old_cell.age(), true);
+		else
+			return FredkinCell(old_cell.age(), false);
+	}
 }
 
 FredkinCell::FredkinCell(int a, bool alive_) : AbstractCell(false) {
@@ -120,9 +141,9 @@ FredkinCell* FredkinCell::clone() const {
 Cell FredkinCell::evolve(const vector<Cell> neighbors) const {
 	int live_neighbors = 0;
 
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < 4; i++) {
 		Cell n = neighbors[i];
-		if (!(n.acell->*(&FredkinCell::border)) && n.acell->*(&FredkinCell::alive))
+		if (!n.is_border() && n.is_alive())
 			live_neighbors++;
 	}
 
@@ -138,7 +159,6 @@ Cell FredkinCell::evolve(const vector<Cell> neighbors) const {
 		else
 			return Cell(FredkinCell(age_, false));
 	}
-
 }
 
 ostream& FredkinCell::print(ostream& out) const {
@@ -206,4 +226,8 @@ istream& operator>>(istream& in, Cell& c) {
 
 bool Cell::is_alive() const {
 	return acell->is_alive();
+}
+
+bool Cell::is_border() const {
+	return acell->is_border();
 }
