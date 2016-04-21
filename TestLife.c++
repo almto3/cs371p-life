@@ -683,6 +683,32 @@ TEST(LifeFixture, life_evolve_all3) {
 	ASSERT_EQ(out.str(), "Generation = 1, Population = 3.\n...\n***\n...\n\n");
 }
 
+TEST(LifeFixture, life_evolve_all4) {
+	istringstream in(".*-5\n*.+-\n-.39\n.-*-\n\n");
+
+	Life<Cell> l(in, 4, 4);
+
+	l.evolve_all();
+	
+	ostringstream out;
+	l.print(out);
+	ASSERT_EQ(out.str(), "Generation = 1, Population = 9.\n.*0-\n..+0\n0.4+\n.0*-\n\n");
+}
+
+TEST(LifeFixture, life_evolve_all5) {
+	istringstream in(".*-5\n*.+-\n-.19\n.-*-\n\n");
+
+	Life<Cell> l(in, 4, 4);
+
+	l.evolve_all();
+	
+	ostringstream out;
+	l.print(out);
+	ASSERT_EQ(out.str(), "Generation = 1, Population = 9.\n.*0-\n..+0\n0.*+\n.0*-\n\n");
+
+
+}
+
 
 
 TEST(LifeFixture, life_print1) {
