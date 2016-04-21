@@ -36,11 +36,9 @@ ConwayCell::ConwayCell(const char& input) {
 ConwayCell operator+(const ConwayCell old_cell, const ConwayCell neighbors[8]) {
 	int live_neighbors = 0;
 
-	for (int i = 0; i < 8; i++) {
-		const ConwayCell n = neighbors[i];
-		if (!n.border && n.alive)
+	for (int i = 0; i < 8; i++)
+		if (!neighbors[i].border && neighbors[i].alive)
 			live_neighbors++;
-	}
 
 	if (old_cell.is_alive()) {
 		if (live_neighbors < 2 || live_neighbors > 3)
@@ -63,11 +61,9 @@ ConwayCell* ConwayCell::clone() const {
 Cell ConwayCell::evolve(const Cell neighbors[8]) const {
 	int live_neighbors = 0;
 
-	for (int i = 0; i < 8; i++) {
-		const Cell n = neighbors[i];
-		if (!n.is_border() && n.is_alive())
+	for (int i = 0; i < 8; i++) 
+		if (!neighbors[i].is_border() && neighbors[i].is_alive())
 			live_neighbors++;
-	}
 
 	if (alive) {
 		if (live_neighbors < 2 || live_neighbors > 3)
@@ -109,11 +105,9 @@ FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 FredkinCell operator+(const FredkinCell old_cell, const FredkinCell neighbors[8]) {
 	int live_neighbors = 0;
 
-	for (int i = 0; i < 4; i++){
-		const FredkinCell n = neighbors[i];
-		if (!n.border && n.alive)
+	for (int i = 0; i < 4; i++)
+		if (!neighbors[i].border && neighbors[i].alive)
 			live_neighbors++;
-	}
 
 	if (old_cell.is_alive()) {
 		if (live_neighbors == 0 || live_neighbors == 2 || live_neighbors == 4)
@@ -141,11 +135,9 @@ FredkinCell* FredkinCell::clone() const {
 Cell FredkinCell::evolve(const Cell neighbors[8]) const {
 	int live_neighbors = 0;
 
-	for (int i = 0; i < 4; i++) {
-		const Cell n = neighbors[i];
-		if (!n.is_border() && n.is_alive())
+	for (int i = 0; i < 4; i++)
+		if (!neighbors[i].is_border() && neighbors[i].is_alive())
 			live_neighbors++;
-	}
 
 	if (alive) {
 		if (live_neighbors == 0 || live_neighbors == 2 || live_neighbors == 4)
