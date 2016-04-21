@@ -33,11 +33,11 @@ ConwayCell::ConwayCell(const char& input) {
 		alive = false;
 }
 
-ConwayCell operator+(const ConwayCell old_cell, const vector<ConwayCell> neighbors) {
+ConwayCell operator+(const ConwayCell old_cell, const ConwayCell neighbors[8]) {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 8; i++) {
-		ConwayCell n = neighbors[i];
+		const ConwayCell n = neighbors[i];
 		if (!n.border && n.alive)
 			live_neighbors++;
 	}
@@ -60,11 +60,11 @@ ConwayCell* ConwayCell::clone() const {
 	return new ConwayCell(*this);
 }
 
-Cell ConwayCell::evolve(const vector<Cell> neighbors) const {
+Cell ConwayCell::evolve(const Cell neighbors[8]) const {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 8; i++) {
-		Cell n = neighbors[i];
+		const Cell n = neighbors[i];
 		if (!n.is_border() && n.is_alive())
 			live_neighbors++;
 	}
@@ -106,11 +106,11 @@ FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 	}
 }
 
-FredkinCell operator+(const FredkinCell old_cell, const vector<FredkinCell> neighbors) {
+FredkinCell operator+(const FredkinCell old_cell, const FredkinCell neighbors[8]) {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 4; i++){
-		FredkinCell n = neighbors[i];
+		const FredkinCell n = neighbors[i];
 		if (!n.border && n.alive)
 			live_neighbors++;
 	}
@@ -138,11 +138,11 @@ FredkinCell* FredkinCell::clone() const {
 	return new FredkinCell(*this);
 }
 
-Cell FredkinCell::evolve(const vector<Cell> neighbors) const {
+Cell FredkinCell::evolve(const Cell neighbors[8]) const {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 4; i++) {
-		Cell n = neighbors[i];
+		const Cell n = neighbors[i];
 		if (!n.is_border() && n.is_alive())
 			live_neighbors++;
 	}
@@ -200,7 +200,7 @@ Cell& Cell::operator=(const Cell& rhs) {
 	return *this;
 }
 
-Cell operator+(const Cell old_cell, const vector<Cell> neighbors) {
+Cell operator+(const Cell old_cell, const Cell neighbors[8]) {
 	Cell new_cell = old_cell.acell->evolve(neighbors);
 
 	// If Life is instantiated with Cell, then when a FredkinCell's age is to become 2, and only then, it becomes a live ConwayCell instead.

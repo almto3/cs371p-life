@@ -77,15 +77,14 @@ TEST_P(ConwayEvolutionFixture, conway_evolve) {
 	char cell_value = param.back();
 	param.pop_back();
 
-	vector<Cell> neighbors;
+	Cell neighbors[8];
+	int i = 0;
 	for (char c : param) {
-		neighbors.push_back(Cell(new ConwayCell(c)));
+		neighbors[i++] = Cell(ConwayCell(c));
 	}
 
 	ConwayCell c = ConwayCell(cell_value);
 	Cell c2 = c.evolve(neighbors);
-
-	neighbors.clear();
 
 	ostringstream s;
 	s << c2;
@@ -100,9 +99,10 @@ TEST_P(ConwayEvolutionFixture, conway_evolve_plus) {
 	char cell_value = param.back();
 	param.pop_back();
 
-	vector<ConwayCell> neighbors;
+	ConwayCell neighbors[8];
+	int i = 0;
 	for (char c : param) {
-		neighbors.push_back(ConwayCell(c));
+		neighbors[i++] = ConwayCell(c);
 	}
 
 	ConwayCell c = ConwayCell(cell_value);
@@ -228,15 +228,14 @@ TEST_P(FredkinEvolutionFixture, fredkin_evolve) {
 	char cell_value = param.back();
 	param.pop_back();
 
-	vector<Cell> neighbors;
+	Cell neighbors[8];
+	int i = 0;
 	for (char c : param) {
-		neighbors.push_back(Cell(new FredkinCell(c)));
+		neighbors[i++] = Cell(new FredkinCell(c));
 	}
 
 	FredkinCell c = FredkinCell(cell_value);
 	Cell c2 = c.evolve(neighbors);
-
-	neighbors.clear();
 
 	ostringstream s;
 	s << c2;
@@ -251,9 +250,10 @@ TEST_P(FredkinEvolutionFixture, fredkin_evolve_plus) {
 	char cell_value = param.back();
 	param.pop_back();
 
-	vector<FredkinCell> neighbors;
+	FredkinCell neighbors[8];
+	int i = 0;
 	for (char c : param) {
-		neighbors.push_back(FredkinCell(c));
+		neighbors[i++] = FredkinCell(c);
 	}
 
 	FredkinCell c = FredkinCell(cell_value);
@@ -386,9 +386,10 @@ TEST_P(CellEvolutionFixture, cell_evolve) {
 	char cell_value = param.back();
 	param.pop_back();
 
-	vector<Cell> neighbors;
+	Cell neighbors[8];
+	int i = 0;
 	for (char c : param) {
-		neighbors.push_back(Cell(c));
+		neighbors[i++] = Cell(c);
 	}
 
 	Cell c = Cell(cell_value);

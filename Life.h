@@ -21,7 +21,7 @@ public:
 	  									4 X 2
 	  									7 3 6
 	*/
-	virtual Cell evolve(std::vector<Cell> neighbors) const = 0;
+	virtual Cell evolve(const Cell neighbors[8]) const = 0;
 	virtual std::ostream& print(std::ostream& out) const = 0;
 	virtual AbstractCell* clone() const = 0;
 
@@ -34,26 +34,26 @@ public:
 };
 
 class ConwayCell : public AbstractCell {
-	friend ConwayCell operator+(ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
+	friend ConwayCell operator+(const ConwayCell old_cell, const ConwayCell neighbors[8]);
 
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
 	ConwayCell(const char& input);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(std::vector<Cell> neighbors) const;
+	Cell evolve(const Cell neighbors[8]) const;
 
 	ConwayCell* clone() const;
 };
 
 class FredkinCell : public AbstractCell {
-	friend FredkinCell operator+(FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
+	friend FredkinCell operator+(const FredkinCell old_cell, const FredkinCell neighbors[8]);
 
 public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
 	FredkinCell(const char& input);
 	FredkinCell(int age_, bool alive_);
 	std::ostream& print(std::ostream& out) const;
-	Cell evolve(std::vector<Cell> neighbors) const;
+	Cell evolve(const Cell neighbors[8]) const;
 
 	FredkinCell* clone() const;
 
@@ -69,7 +69,7 @@ protected:
 };
 
 class Cell {
-	friend Cell operator+(Cell old_cell, const std::vector<Cell> neigbors);
+	friend Cell operator+(const Cell old_cell, const Cell neigbors[8]);
 	friend std::ostream& operator<<(std::ostream& out, const Cell c);
 	friend std::istream& operator>>(std::istream& in, Cell& c);
 
@@ -153,16 +153,15 @@ public:
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < width; y++) {
 				T cell = at(x, y);
-				std::vector<T> neighbors(8);
-
-				neighbors[0] = temp_board[(x + 1) * (width + 2) + y];		// up
-				neighbors[1] = temp_board[(x + 2) * (width + 2) + y + 1];	// right
-				neighbors[2] = temp_board[(x + 1) * (width + 2) + y + 2];	// down
-				neighbors[3] = temp_board[(x) * (width + 2) + y + 1];		// left
-				neighbors[4] = temp_board[(x + 2) * (width + 2) + y];		// top-right
-				neighbors[5] = temp_board[(x + 2) * (width + 2) + y + 2];	// bottom-right
-				neighbors[6] = temp_board[(x) * (width + 2) + y + 2];		// bottom-left
-				neighbors[7] = temp_board[(x) * (width + 2) + y];			// top-left
+				T neighbors[8] = {
+					temp_board[(x + 1) * (width + 2) + y],		// up
+					temp_board[(x + 2) * (width + 2) + y + 1],	// right
+					temp_board[(x + 1) * (width + 2) + y + 2],	// down
+					temp_board[(x) * (width + 2) + y + 1],		// left
+					temp_board[(x + 2) * (width + 2) + y],		// top-right
+					temp_board[(x + 2) * (width + 2) + y + 2],	// bottom-right
+					temp_board[(x) * (width + 2) + y + 2],		// bottom-left
+					temp_board[(x) * (width + 2) + y]};			// top-left
 
 				T new_cell = cell + neighbors;
 				
