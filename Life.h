@@ -34,7 +34,7 @@ public:
 };
 
 class ConwayCell : public AbstractCell {
-	friend ConwayCell operator+(const ConwayCell old_cell, const ConwayCell neighbors[8]);
+	friend ConwayCell operator+(const ConwayCell& old_cell, const ConwayCell neighbors[8]);
 
 public:
 	ConwayCell(bool border_ = false) : AbstractCell(border_) {}
@@ -46,7 +46,7 @@ public:
 };
 
 class FredkinCell : public AbstractCell {
-	friend FredkinCell operator+(const FredkinCell old_cell, const FredkinCell neighbors[8]);
+	friend FredkinCell operator+(const FredkinCell& old_cell, const FredkinCell neighbors[8]);
 
 public:
 	FredkinCell(bool border_ = false) : AbstractCell(border_) {}
@@ -69,7 +69,7 @@ protected:
 };
 
 class Cell {
-	friend Cell operator+(const Cell old_cell, const Cell neigbors[8]);
+	friend Cell operator+(const Cell& old_cell, const Cell neigbors[8]);
 	friend std::ostream& operator<<(std::ostream& out, const Cell c);
 	friend std::istream& operator>>(std::istream& in, Cell& c);
 
@@ -136,10 +136,11 @@ public:
 		out << "Generation = " << generation << ", Population = " << population << "." << std::endl;
 		for (int x = 1; x < height + 1; x++) {
 			for (int y = 1; y < width + 1; y++) {
-				T c = board[x * (width + 2) + y];
+				const T cell = board[x * (width + 2) + y];
 
-				out << c;
+				out << cell;
 			}
+
 			out << std::endl;
 		}
 		out << std::endl;
@@ -152,7 +153,8 @@ public:
 
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < width; y++) {
-				T cell = at(x, y);
+				const T& cell = at(x, y);
+
 				T neighbors[8] = {
 					temp_board[(x + 1) * (width + 2) + y],		// up
 					temp_board[(x + 2) * (width + 2) + y + 1],	// right

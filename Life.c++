@@ -33,7 +33,7 @@ ConwayCell::ConwayCell(const char& input) {
 		alive = false;
 }
 
-ConwayCell operator+(const ConwayCell old_cell, const ConwayCell neighbors[8]) {
+ConwayCell operator+(const ConwayCell& old_cell, const ConwayCell neighbors[8]) {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 8; i++)
@@ -102,7 +102,7 @@ FredkinCell::FredkinCell(const char& input) : AbstractCell(false) {
 	}
 }
 
-FredkinCell operator+(const FredkinCell old_cell, const FredkinCell neighbors[8]) {
+FredkinCell operator+(const FredkinCell& old_cell, const FredkinCell neighbors[8]) {
 	int live_neighbors = 0;
 
 	for (int i = 0; i < 4; i++)
@@ -192,7 +192,7 @@ Cell& Cell::operator=(const Cell& rhs) {
 	return *this;
 }
 
-Cell operator+(const Cell old_cell, const Cell neighbors[8]) {
+Cell operator+(const Cell& old_cell, const Cell neighbors[8]) {
 	Cell new_cell = old_cell.acell->evolve(neighbors);
 
 	// If Life is instantiated with Cell, then when a FredkinCell's age is to become 2, and only then, it becomes a live ConwayCell instead.
