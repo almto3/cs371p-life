@@ -45,7 +45,7 @@ public:
 	 * @param neighbors the neighbors to the calling cell
 	 * @return the evolved cell
 	 */
-	virtual Cell evolve(std::vector<Cell> neighbors) const = 0;
+	virtual Cell evolve(const Cell neighbors[8]) const = 0;
 
 	/**
 	 * print this cell's symbol
@@ -85,17 +85,16 @@ public:
 };
 
 // 	---------------------------------------------------
-//	Class ConwayCell is the class to handle conwaycells 
+//	Class ConwayCell is the class to handle Conway cells 
 //	---------------------------------------------------
 class ConwayCell : public AbstractCell {
-
 	/**
 	 * evolve this cell, the operator is to be called on the cell and it's neighbors 
 	 * @param old_cell the cell to evolve
 	 * @param neighbors a vector of neighbors, in the order up, right, down, left, up-right, down-right, down-left, up-left
 	 * @return a new cell that's evolved from old_cell and neighbors
 	 */
-	friend ConwayCell operator+(ConwayCell old_cell, const std::vector<ConwayCell> neighbors);
+	friend ConwayCell operator+(const ConwayCell& old_cell, const ConwayCell neighbors[8]);
 
 public:
 
@@ -123,7 +122,7 @@ public:
 	 * @param neighbors the neighbors to the calling cell
 	 * @return the evolved cell
 	 */
-	Cell evolve(std::vector<Cell> neighbors) const;
+	Cell evolve(const Cell neighbors[8]) const;
 
 	/**
 	 * preforms a deep copy on the cell
@@ -136,14 +135,13 @@ public:
 //	Class FredkinCell is the class to handle fredkincells 
 //	-----------------------------------------------------
 class FredkinCell : public AbstractCell {
-
 	/**
 	 * evolve this cell, the operator is to be called on the cell and it's neighbors
 	 * @param old_cell the cell to evolve
 	 * @param neighbors a vector of neighbors, in the order up, right, down, left, up-right, down-right, down-left, up-left
 	 * @return a new cell that's evolved from old_cell and neighbors
 	 */
-	friend FredkinCell operator+(FredkinCell old_cell, const std::vector<FredkinCell> neighbors);
+	friend FredkinCell operator+(const FredkinCell& old_cell, const FredkinCell neighbors[8]);
 
 public:
 
@@ -178,7 +176,7 @@ public:
 	 * @param neighbors the neighbors to the calling cell
 	 * @return the evolved cell
 	 */
-	Cell evolve(std::vector<Cell> neighbors) const;
+	Cell evolve(const Cell neighbors[8]) const;
 
 	/**
 	 * preforms a deep copy on the cell
@@ -200,14 +198,13 @@ protected:
 //	Class Cell is the handler class for handle fredkincells and conwaycells
 //	-----------------------------------------------------------------------
 class Cell {
-
 	/**
 	 * evolve this cell, the operator is to be called on the cell and it's neighbors, works for all cells
 	 * @param old_cell the cell to evolve
 	 * @param neighbors a vector of neighbors, in the order up, right, down, left, up-right, down-right, down-left, up-left
 	 * @return a new cell that's evolved from old_cell and neighbors
 	 */
-	friend Cell operator+(Cell old_cell, const std::vector<Cell> neigbors);
+	friend Cell operator+(const Cell& old_cell, const Cell neigbors[8]);
 
 	/**
 	 * print this cell's symbol, works for all cells
@@ -274,6 +271,7 @@ public:
 	 * @return true if alive, false if dead
 	 */
 	bool is_alive() const;
+	bool is_border() const;
 };
 
 // 	----------------------------------------------------
@@ -336,9 +334,11 @@ public:
 		out << "Generation = " << generation << ", Population = " << population << "." << std::endl;
 		for (int x = 1; x < height + 1; x++) {
 			for (int y = 1; y < width + 1; y++) {
-				T c = board[x * (width + 2) + y];
-				out << c;
+				const T cell = board[x * (width + 2) + y];
+
+				out << cell;
 			}
+
 			out << std::endl;
 		}
 		out << std::endl;
@@ -354,18 +354,17 @@ public:
 
 		for (int x = 0; x < height; x++) {
 			for (int y = 0; y < width; y++) {
-				T cell = at(x, y);
-				std::vector<T> neighbors;
+				const T& cell = at(x, y);
 
-				//getting the neighbors, in case of fredkincell, evolve will only consider the first four entries
-				neighbors.push_back(temp_board.at((x + 1) * (width + 2) + y));		// up
-				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y + 1));	// right
-				neighbors.push_back(temp_board.at((x + 1) * (width + 2) + y + 2));	// down
-				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 1));		// left
-				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y));		// top-right
-				neighbors.push_back(temp_board.at((x + 2) * (width + 2) + y + 2));	// bottom-right
-				neighbors.push_back(temp_board.at((x) * (width + 2) + y + 2));		// bottom-left
-				neighbors.push_back(temp_board.at((x) * (width + 2) + y));			// top-left
+				T neighbors[8] = {
+					temp_board[(x + 1) * (width + 2) + y],		// up
+					temp_board[(x + 2) * (width + 2) + y + 1],	// right
+					temp_board[(x + 1) * (width + 2) + y + 2],	// down
+					temp_board[(x) * (width + 2) + y + 1],		// left
+					temp_board[(x + 2) * (width + 2) + y],		// top-right
+					temp_board[(x + 2) * (width + 2) + y + 2],	// bottom-right
+					temp_board[(x) * (width + 2) + y + 2],		// bottom-left
+					temp_board[(x) * (width + 2) + y]};			// top-left
 
 				T new_cell = cell + neighbors;
 				

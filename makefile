@@ -38,7 +38,7 @@ RunLife: Life.h Life.c++ RunLife.c++
 RunLife.tmp: RunLife
 	./RunLife < RunLife.in > RunLife.tmp
 	diff RunLife.tmp RunLife.out
-	$(GPROF) ./RunLife
+	# $(GPROF) ./RunLife
 
 TestLife: Life.h Life.c++ TestLife.c++
 	$(CXX) $(CXXFLAGS) $(GCOVFLAGS) Life.c++ TestLife.c++ -o TestLife $(LDFLAGS)
