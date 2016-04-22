@@ -52,3 +52,6 @@ script:
     - make test
     - ls -al
     - make check
+
+after_failure:
+    - cat Life.tmp
