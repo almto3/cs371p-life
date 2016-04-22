@@ -1,7 +1,7 @@
 FILES :=                        \
-    life-tests/EID-RunLife.out  \
-    life-tests/EID-TestLife.c++ \
-    life-tests/EID-TestLife.out \
+    life-tests/sbl523-RunLife.out  \
+    life-tests/sbl523-TestLife.c++ \
+    life-tests/sbl523-TestLife.out \
     Life.c++                    \
     Life.h                      \
     Life.log                    \
