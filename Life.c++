@@ -197,9 +197,9 @@ Cell operator+(const Cell& old_cell, const Cell neighbors[8]) {
 	Cell new_cell = old_cell.acell->evolve(neighbors);
 
 	// If Life is instantiated with Cell, then when a FredkinCell's age is to become 2, and only then, it becomes a live ConwayCell instead.
-	FredkinCell *fc;
-	if ((fc = dynamic_cast<FredkinCell *>(new_cell.acell)) != nullptr)
-		if (fc->age() == 2)
+	FredkinCell *oc;
+	if ((oc = dynamic_cast<FredkinCell *>(old_cell.acell)) != nullptr)
+		if (oc->age() == 1 && (static_cast<FredkinCell *>(new_cell.acell))->age() == 2)
 			return Cell(ConwayCell('*'));
 
 	return new_cell;

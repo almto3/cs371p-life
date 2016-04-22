@@ -295,7 +295,7 @@ INSTANTIATE_TEST_CASE_P(FredkinEvolutionDead, FredkinEvolutionFixture, ::testing
 
 INSTANTIATE_TEST_CASE_P(FredkinEvolutionAlive2, FredkinEvolutionFixture, ::testing::Values(
 	vector<char>({'-', '-', '-', '-', '-', '-', '-', '-',   '5', '-'}),
-	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '3', '4'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '1', '2'}),
 	vector<char>({'2', '2', '-', '-', '-', '-', '-', '-',   '8', '-'}),
 	vector<char>({'2', '2', '2', '-', '-', '-', '-', '-',   '9', '+'}),
 	vector<char>({'2', '2', '2', '2', '-', '-', '-', '-',   '4', '-'}),
@@ -376,6 +376,8 @@ TEST(CellFixture, cell_conway_copy_assignment2) {
 
 class CellEvolutionFixture : public ::testing::TestWithParam<vector<char>> {
 	// Fixture for running tests of evolution. The argument is a vector containing the neighbors, then the value of the cell, then the expected value
+
+	
 };
 
 TEST_P(CellEvolutionFixture, cell_evolve) {
@@ -400,7 +402,54 @@ TEST_P(CellEvolutionFixture, cell_evolve) {
 	ASSERT_EQ(s.str()[0], expected);
 }
 
-// TODO: add some cell evolution tests (including changing from FredkinCell to ConwayCell)
+INSTANTIATE_TEST_CASE_P(CellEvolution, CellEvolutionFixture, ::testing::Values(
+
+	//Dead Conway
+	vector<char>({'.', '.', '-', '-', '.', '-', '.', '-',   '.', '.'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '.', '.'}),
+	vector<char>({'*', '1', '-', '-', '.', '.', '-', '-',   '.', '.'}),
+	vector<char>({'1', '*', '2', '-', '-', '-', '.', '-',   '.', '*'}),
+	vector<char>({'3', '*', '1', '*', '.', '-', '.', '-',   '.', '.'}),
+	vector<char>({'1', '*', '6', '+', '2', '.', '.', '.',   '.', '.'}),
+	vector<char>({'6', '*', '9', '*', '+', '5', '-', '.',   '.', '.'}),
+	vector<char>({'1', '*', '4', '*', '2', '4', '1', '-',   '.', '.'}),
+	vector<char>({'*', '8', '2', '*', '0', '*', '5', '6',   '.', '.'}),
+
+	//Alive Conway
+	vector<char>({'.', '.', '-', '-', '.', '-', '.', '-',   '*', '.'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '*', '.'}),
+	vector<char>({'*', '1', '-', '-', '.', '.', '-', '-',   '*', '*'}),
+	vector<char>({'1', '*', '2', '-', '-', '-', '.', '-',   '*', '*'}),
+	vector<char>({'3', '*', '1', '*', '.', '-', '.', '-',   '*', '.'}),
+	vector<char>({'1', '*', '6', '+', '2', '.', '.', '.',   '*', '.'}),
+	vector<char>({'6', '*', '9', '*', '+', '5', '-', '.',   '*', '.'}),
+	vector<char>({'1', '*', '4', '*', '2', '4', '1', '-',   '*', '.'}),
+	vector<char>({'*', '8', '2', '*', '0', '*', '5', '6',   '*', '.'}),
+
+	//Dead Fredkin
+	vector<char>({'.', '.', '-', '-', '.', '-', '.', '-',   '-', '-'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '-', '0'}),
+	vector<char>({'*', '1', '-', '-', '.', '.', '-', '-',   '-', '-'}),
+	vector<char>({'1', '*', '2', '-', '-', '-', '.', '-',   '-', '0'}),
+	vector<char>({'3', '*', '1', '*', '.', '-', '.', '-',   '-', '-'}),
+	vector<char>({'1', '*', '6', '+', '2', '.', '.', '.',   '-', '-'}),
+	vector<char>({'6', '*', '9', '*', '+', '5', '-', '.',   '-', '-'}),
+	vector<char>({'1', '*', '4', '*', '2', '4', '1', '-',   '-', '-'}),
+	vector<char>({'*', '8', '2', '*', '0', '*', '5', '6',   '-', '-'}),
+
+	//Alive Fredkin
+	vector<char>({'.', '.', '-', '-', '.', '-', '.', '-',   '1', '-'}),
+	vector<char>({'.', '.', '-', '-', '.', '-', '.', '-',   '2', '-'}),
+	vector<char>({'2', '-', '-', '-', '-', '-', '-', '-',   '1', '*'}),
+	vector<char>({'*', '1', '-', '-', '.', '.', '-', '-',   '3', '-'}),
+	vector<char>({'1', '*', '2', '-', '-', '-', '.', '-',   '4', '5'}),
+	vector<char>({'3', '*', '1', '*', '.', '-', '.', '-',   '5', '-'}),
+	vector<char>({'1', '*', '6', '+', '2', '.', '.', '.',   '6', '-'}),
+	vector<char>({'6', '*', '9', '*', '+', '5', '-', '.',   '7', '-'}),
+	vector<char>({'1', '*', '4', '*', '2', '4', '1', '-',   '8', '-'}),
+	vector<char>({'*', '8', '2', '*', '0', '*', '5', '6',   '9', '-'})
+
+	));
 
 // --------
 // LifeTest
@@ -770,6 +819,11 @@ TEST(LifeFixture, life_begin2) {
 
 	Life<Cell>::iterator<Cell> c1 = l.begin();
 	ASSERT_EQ((*c1).acell->is_alive(), true); ASSERT_EQ((*c1).acell->is_border(), false);
+	(*c1).~Cell();
+	*c1 = Cell('.');
+	++c1;
+	--c1;
+	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
 
 	++c1;
 	ASSERT_EQ((*c1).acell->is_alive(), false); ASSERT_EQ((*c1).acell->is_border(), false);
