@@ -1,0 +1,318 @@
+commit aadafe5daa956fbeccf8d50c2e185799e3a3448e
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Fri Apr 22 12:59:02 2016 -0500
+
+    Travis fixes
+
+commit 8109f564e53add1b318c32ca6e020f722f3d12ae
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 22 12:58:36 2016 -0500
+
+    Some final changes
+
+commit 84b4d82403252f0ed985ad13eaa92e5fdd08e4e7
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 22 12:55:47 2016 -0500
+
+    More tests
+
+commit 95406174f3a20def8580ed4c72b384ec569697b3
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Thu Apr 21 17:57:43 2016 -0500
+
+    finished documentation and made html
+
+commit 3d78de8469a1628b05d6a39dd1f0376fc894e4bb
+Merge: 760848a 0efed56
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Thu Apr 21 17:29:37 2016 -0500
+
+    changed vector implemantion to array
+
+commit 760848a4691d607745aa9a4ef627758b9e589043
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Thu Apr 21 17:24:54 2016 -0500
+
+    documentation
+
+commit 0efed56ccecfde79ad6ee12f03fd275f89a67a4d
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Thu Apr 21 17:21:44 2016 -0500
+
+    Added UML diagram
+
+commit 7188a8d1fb5cdde0fe3d6b046588b7587d1dc2c3
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Thu Apr 21 17:18:30 2016 -0500
+
+    Several optimizations
+
+commit c5a7edcefc4a5da6e72000063a941e213ab54dd9
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Thu Apr 21 16:42:49 2016 -0500
+
+    Further optimization
+
+commit c6d36f543b15bdaab32a1fbda8d876363c37176f
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Thu Apr 21 16:07:09 2016 -0500
+
+    Neighbors no longer a vector
+
+commit 7af91c8561910cfe46e53388a0fe2c74a0fa9156
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Thu Apr 21 15:58:40 2016 -0500
+
+    Some optimizations
+
+commit 9f9fe8c8addb61fba745d826e3eb2d659810be29
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Wed Apr 20 23:41:43 2016 -0500
+
+    at() and end()
+
+commit fcb8a74908ac66c4be544c501740eddd5360c387
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Wed Apr 20 21:52:48 2016 -0500
+
+    Added begin and end
+
+commit 1ae3898db0df2d555b25455d5cb67e8a7f749789
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 13:49:35 2016 -0500
+
+    Minor refactoring and optimization
+
+commit f6dea5a4fd8bde1ca7e33259fdbafcd1e2691a2a
+Merge: e86cc24 db5f4d4
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Wed Apr 20 13:41:51 2016 -0500
+
+    Maaerge branch 'dev' of https://github.com/almto3/cs371p-life into dev
+    addes some tests
+
+commit e86cc246269ab0e4164191f6146b322d53aa47e7
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Wed Apr 20 13:41:42 2016 -0500
+
+    written some tests
+
+commit db5f4d4da5e94002179fc0c048153a988dae237b
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 13:41:10 2016 -0500
+
+    merge issues
+
+commit f67af4b333380f3bc0115f7ce1eb6d9c00304cfa
+Merge: feb95c9 35002aa
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 13:39:34 2016 -0500
+
+    Merge branch 'dev' of github.com:almto3/cs371p-life into dev
+
+commit feb95c946a3d73029b8c776c7c5b5f8b42bfb35b
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 13:39:16 2016 -0500
+
+    Some optimizations
+
+commit 35002aafc3be098d000735c1e9337609ab0b3a4e
+Author: saleh alghusson <almto3@hotmail.com>
+Date:   Wed Apr 20 13:05:40 2016 -0500
+
+    added life print() tests
+
+commit c9a3f2d31d094bc13cb93cca38e66c4d503b92df
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 12:46:53 2016 -0500
+
+    Starting on RunLife
+
+commit f2f9c5a00a628dc7886221e85350f15962372140
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 12:43:32 2016 -0500
+
+    Fixed memory leaks and errors
+
+commit 42262b75026b5e2073f364fd90f36625a47851eb
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 12:32:58 2016 -0500
+
+    Evolve works with FredkinCell
+
+commit 97bf92b5291bd8cf0fb91c8b4363c6ecaafe263b
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 12:27:48 2016 -0500
+
+    Evolve working now
+
+commit 64c4e453addac46510336c4b03cf6e16ead0b842
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Wed Apr 20 12:12:35 2016 -0500
+
+    Fixed memory errors
+
+commit 359f9ac94bf12c6d847ed8e2eb77c6420ff05ee4
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Tue Apr 19 17:39:36 2016 -0500
+
+    evolve_all() works
+
+commit 08ac0a9425c7bdd0d0beca2ddab348d0606201e1
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Mon Apr 18 20:49:53 2016 -0500
+
+    No more memory leaks, still have a few memory errors though
+
+commit 23001595cfb967fb24d0178d9fb3f7b90adae69c
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Mon Apr 18 20:09:30 2016 -0500
+
+    Working + operator
+
+commit fb303a9cdfc37ffd722392adbb716a871769f029
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Mon Apr 18 18:48:25 2016 -0500
+
+    Added more tests
+
+commit 2dcb154dc4dcd06aa668172685360209e3a0e901
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Mon Apr 18 18:41:03 2016 -0500
+
+    Generic Life
+
+commit 4fe2dcdefb6acceff412bf7a78ae129420378274
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Mon Apr 18 17:05:42 2016 -0500
+
+    Fixed Cell destructor
+    
+    Closed #13
+
+commit 9f9898d6fe67ca86e3a95514436ec5e5bf1e7929
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 14:44:53 2016 -0500
+
+    Need to fix copy constructor
+
+commit 00e4c5adb919e6248ff9feb7aec2d3f0f2e1d2a7
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 13:52:39 2016 -0500
+
+    New is_alive and is_border members
+
+commit 1b5ed0ef75787297a585830f048fb3d23b17806f
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 13:48:25 2016 -0500
+
+    Life constructor
+
+commit 52293a020a4b6fc7de676eb7ad85eec8b6bf08b5
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 13:34:17 2016 -0500
+
+    Added Life constructor
+
+commit 12060f6c154be9dfe84798cd68a547174da19686
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 13:06:52 2016 -0500
+
+    Tested Fredkin
+
+commit af03793574f01baec455c03aafcbbe4cc30a8cc6
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 12:41:51 2016 -0500
+
+    FredkinCell tests
+
+commit 5441a44dd5bd11a0bc3bf87e5fcb13b30237b0ca
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 12:31:19 2016 -0500
+
+    worked on Fredkin
+
+commit 3aece73942a82ae4731964226ea0074a0f2cbfe2
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 11:59:20 2016 -0500
+
+    Parameterized tests
+
+commit ca60a46bc3a97e769b69461ff2073253cf5d2330
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 11:54:42 2016 -0500
+
+    Procedurally generated tests
+
+commit b73040bc67d528115ec55bba0cc475afadc3628e
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Sun Apr 17 11:29:54 2016 -0500
+
+    Working tests
+
+commit 13548f113dd3380c244e1e9edab10c4bed8211d3
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 17:49:41 2016 -0500
+
+    More code
+
+commit 4bff36326d08d2dd43dc7444d5f40bd3b91c775c
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 17:22:03 2016 -0500
+
+    Kinda compiles but not really
+
+commit 48e6a769f9a6572d621a7693258079d1990219ce
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 17:03:14 2016 -0500
+
+    Compile errors
+
+commit 48fb11cfb4354838786840af4ca2e2bd42eb8454
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 16:15:31 2016 -0500
+
+    More tests
+
+commit a2fff3ed4c38a91a9c2dfbf967e15e36977468ba
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 15:55:12 2016 -0500
+
+    Changes in life.h
+
+commit 61fc14d5f73e1503769ad353dc42b5534925721c
+Merge: aa4bf18 929fb65
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 15:49:03 2016 -0500
+
+    Merge branch 'dev' of github.com:almto3/cs371p-life into dev
+
+commit aa4bf18b74ea90520e3a638dfec2475ae197540f
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Fri Apr 15 15:47:51 2016 -0500
+
+    Added header
+
+commit 929fb651ac12df99a03f576d440e983fd2fefe01
+Author: almto3 <almto3@hotmail.com>
+Date:   Tue Apr 12 18:11:49 2016 -0500
+
+    undid the changes to the .travis file
+
+commit 0f93ffe52bd68d1cfd13168b80f9776cb8acce2f
+Author: almto3 <almto3@hotmail.com>
+Date:   Tue Apr 12 18:03:13 2016 -0500
+
+    updated the .travis file
+
+commit 8da5e4baadc7a3f90c6a868906dd6a5f95cb6034
+Author: InsaneBuildEnvironment <samuel.b.lauber@gmail.com>
+Date:   Tue Apr 12 17:18:52 2016 -0500
+
+    Added files
+
+commit 9b4943dda44507ed20e86e5b686d92e080c353a9
+Author: almto3 <almto3@users.noreply.github.com>
+Date:   Tue Apr 12 17:15:29 2016 -0500
+
+    Initial commit
