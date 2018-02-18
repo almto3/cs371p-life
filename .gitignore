@@ -1,10 +1,13 @@
-# http://git-scm.com/docs/gitignore/
+
 
 *.gcda
 *.gcno
 *.gcov
 
-*.tmp
+.DS_Store
+
+# Prerequisites
+*.d
 
 # Compiled Object files
 *.slo
@@ -23,6 +26,7 @@
 
 # Fortran module files
 *.mod
+*.smod
 
 # Compiled Static libraries
 *.lai
@@ -32,9 +36,5 @@
 
 # Executables
 *.exe
+*.out
 *.app
-
-RunLife
-TestLife
-life-tests/
-latex/
